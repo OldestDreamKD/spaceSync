@@ -11,7 +11,7 @@ const FloorMapList = ({ refresh }) => { // Accept refresh as a prop
         const fetchFloorMaps = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get('http://localhost:2000/api/floormaps');
+                const response = await axios.get('https://workspacemapper.onrender.com/api/floormaps');
                 setFloorMaps(Array.isArray(response.data) ? response.data : []);
             } catch (err) {
                 console.error('Error fetching floor maps:', err);

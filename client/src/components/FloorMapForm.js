@@ -35,7 +35,7 @@ const FloorMapForm = ({ onClose, onRefresh }) => {
         };
 
         try {
-            await axios.post('http://localhost:2000/api/floormaps/upload', formData);
+            await axios.post('https://workspacemapper.onrender.com/api/floormaps/upload', formData);
             setMessage('Floor map uploaded successfully!');
             setFloorMapName('');
             setFileUrl('');
