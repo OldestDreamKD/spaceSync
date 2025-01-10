@@ -25,7 +25,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:2000/api/auth/login", 
+      const response = await axios.post("https://workspacemapper.onrender.com/api/auth/login", 
         { email, password }
       );
       console.log(response.data.message)

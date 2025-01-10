@@ -17,7 +17,7 @@ app.use(express.static("public"));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow requests from this origin
+    origin: "https://workspacemapper.onrender.com/", // Allow requests from this origin
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
     credentials: true, // Allow cookies and other credentials
   })
