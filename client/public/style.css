@@ -25,22 +25,29 @@ body {
   0% {
     background-position: 0% 0%;
   }
+
   50% {
     background-position: 100% 100%;
   }
+
   100% {
     background-position: 0% 0%;
   }
 }
 
 .modal-overlay {
-  position: fixed; /* Makes it stay fixed on the viewport */
+  position: fixed;
+  /* Makes it stay fixed on the viewport */
   top: 0;
   left: 0;
-  width: 100vw; /* Full width of the viewport */
-  height: 100vh; /* Full height of the viewport */
-  background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent dark background */
-  display: flex; /* Flexbox for centering the modal */
+  width: 100vw;
+  /* Full width of the viewport */
+  height: 100vh;
+  /* Full height of the viewport */
+  background-color: rgba(0, 0, 0, 0.75);
+  /* Semi-transparent dark background */
+  display: flex;
+  /* Flexbox for centering the modal */
   justify-content: center;
   z-index: 999;
   align-content: center;
@@ -53,7 +60,8 @@ body {
   padding: 20px;
   border-radius: 8px;
   max-width: 500px;
-  width: 100%; /* Responsive width */
-  height: 50vh;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25); /* Optional shadow */
+  width: 100%;
+  /* Responsive width */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  /* Optional shadow */
 }

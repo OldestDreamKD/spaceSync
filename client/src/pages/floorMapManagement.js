@@ -29,7 +29,7 @@ const FloorMapManagement = () => {
                 </span>
                 <FloorMapList refresh={refresh} /> {/* Pass refresh as prop */}
                 {isDialogOpen && (
-                    <FloorMapForm onClose={toggleDialog} onRefresh={handleRefresh} /> 
+                    <FloorMapForm onClose={toggleDialog} onRefresh={handleRefresh} />
                 )}
             </div>
         </div>

@@ -1,5 +1,14 @@
 {
+  "name": "workspacemapper",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "npm start --prefix server",
+    "client": "npm start --prefix client"
+  },
   "dependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9"
   }
 }
