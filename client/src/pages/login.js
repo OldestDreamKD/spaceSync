@@ -47,7 +47,7 @@ export default function Login() {
       }
     } catch (error) {
       console.log(error)
-      setError("error");
+      setError(error.response?.data?.message || "An error occurred");
     }
   };
 
