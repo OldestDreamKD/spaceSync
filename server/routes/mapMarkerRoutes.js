@@ -20,9 +20,9 @@ router.post('/upload', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const mapUrl = req.body.mapId;
+        const mapUrl = req.query.mapId;
         const floorMap = await FloorMap.findOne({ url: mapUrl });
         const markerId = floorMap._id;
         const floorMarkers = await Marker.find({ floorMapId: markerId });
@@ -32,9 +32,32 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/delete', async (req, res) => {
+router.get('/markerDetails', async (req, res) => {
+    try {
+        const markerId = req.query.markerId;
+        const marker = await Marker.findById({ "_id": markerId });
+        res.json(marker);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching markers', error });
+    }
+});
+
+router.put('/update', async (req, res) => {
     try {
         const markerId = req.body._id;
+        const newMarkerDetails = req.body.details;
+        const marker = await Marker.findOne({ "_id": markerId });
+        marker.details = newMarkerDetails;
+        const response = await marker.save();
+        res.status(201).json({ message: 'Markers succesfully updated!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching markers', error });
+    }
+});
+
+router.delete('/delete', async (req, res) => {
+    try {
+        const markerId = req.query._id;
         console.log(markerId);
         const response = await Marker.deleteOne({ _id: markerId });
         console.log(response);

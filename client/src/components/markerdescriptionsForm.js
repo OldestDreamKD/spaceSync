@@ -9,6 +9,16 @@ const MarkerdescriptionsForm = ({ onClose, onSubmit }) => {
         setdescriptions((prev) => [...prev, { label: "", description: "" }]);
     };
 
+    const handleDeletedescription = () => {
+        setdescriptions((prev) => {
+            const newDescriptions = [...prev];
+            console.log(newDescriptions);
+            newDescriptions.pop();
+            console.log(newDescriptions);
+            return newDescriptions;
+        });
+    };
+
     // Update specific description
     const handledescriptionChange = (index, field, value) => {
         setdescriptions((prev) =>
@@ -54,6 +64,11 @@ const MarkerdescriptionsForm = ({ onClose, onSubmit }) => {
                                         placeholder="Enter description"
                                     />
                                 </FloatingLabel>
+                            </Col>
+                            <Col md="auto">
+                                <Button variant="danger" className="mx-2 my-2" onClick={handleDeletedescription}>
+                                    Delete
+                                </Button>
                             </Col>
                         </Row>
                     ))}

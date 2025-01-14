@@ -9,7 +9,7 @@ const DeleteConfirmationModal = ({ show, handleClose, handleConfirmDelete, marke
       </Modal.Header>
       <Modal.Body>Are you sure you want to delete this marker?</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="dark" onClick={handleClose}>
           Cancel
         </Button>
         <Button variant="danger" onClick={() => handleConfirmDelete(markerId)}>
