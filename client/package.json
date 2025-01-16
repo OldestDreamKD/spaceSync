@@ -9,9 +9,11 @@
     "leaflet": "^1.9.4",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.7",
+    "react-datepicker": "^7.6.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.26.2",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "react-time-picker": "^7.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

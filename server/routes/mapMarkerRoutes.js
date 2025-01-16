@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Marker = require('../models/marker'); // Import the Marker model
-const FloorMap = require('../models/floorMap');  // Import the FloorMap model
+const Marker = require('../models/marker');
+const FloorMap = require('../models/floorMap');
+const Booking = require('../models/bookings');
 
 router.post('/upload', async (req, res) => {
     try {
@@ -58,11 +59,10 @@ router.put('/update', async (req, res) => {
 router.delete('/delete', async (req, res) => {
     try {
         const markerId = req.query._id;
-        console.log(markerId);
-        const response = await Marker.deleteOne({ _id: markerId });
-        console.log(response);
-        if (response.deletedCount === 1) {
-            res.status(201).json({ message: 'Marker deleted successfully!' });
+        const markerDelete = await Marker.deleteOne({ _id: markerId });
+        const bookingDelete = await Booking.deleteMany({ markerId: markerId })
+        if (markerDelete.acknowledged === true && bookingDelete.acknowledged === true) {
+            res.status(201).json({ message: 'Marker and Bookings deleted successfully!' });
         } else {
             res.status(404).json({ message: 'Marker not found!' });
         }

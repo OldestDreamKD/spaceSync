@@ -8,7 +8,6 @@ import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightFromBracket,
-  faGear,
   faUser,
   faList,
   faLocationDot,
@@ -28,7 +27,7 @@ export default function Layout() {
         <Container>
           <Navbar.Brand>
             <Link
-              to="/"
+              to="/admindash"
               className="text-decoration-none fw-bold text-body-emphasis"
             >
               WorkSpaceMapper
@@ -46,38 +45,17 @@ export default function Layout() {
               </Link>
             </Nav.Item>
             <Nav.Item>
-              <Link to="/" className="text-decoration-none text-body-emphasis">
+              <Link to="/profile" className="text-decoration-none text-body-emphasis">
                 <FontAwesomeIcon icon={faUser} className="pe-1" />
-                Profile 
+                Profile
               </Link>
             </Nav.Item>
-            {/* <Nav.Item>
-              <Link
-                to="/tasks"
-                className="text-decoration-none text-body-emphasis"
-              >
+            <Nav.Item>
+              <Link to="/listall" className="text-decoration-none text-body-emphasis">
                 <FontAwesomeIcon icon={faList} className="pe-1" />
-                
+                Bookings
               </Link>
             </Nav.Item>
-            <Nav.Item>
-              <Link
-                to="/calendar"
-                className="text-decoration-none text-body-emphasis"
-              >
-                <FontAwesomeIcon icon={faCalendarDays} className="pe-1" />
-                Calendar
-              </Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Link
-                to="/settings"
-                className="text-decoration-none text-body-emphasis"
-              >
-                <FontAwesomeIcon icon={faGear} className="pe-1" />
-                Settings
-              </Link>
-            </Nav.Item> */}
             <Button variant="outline-dark" onClick={handleLogout}>
               <FontAwesomeIcon
                 icon={faArrowRightFromBracket}

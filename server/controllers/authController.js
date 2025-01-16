@@ -27,8 +27,8 @@ exports.register = async (req, res) => {
       role: "employee",
     });
     const response = await newUser.save();
-    console.log("User created:", response);
-    res.status(201).json({ message: "Registration successful" });
+    // console.log("User created:", response);
+    res.status(201).json({ message: "Registration successful", user: username });
   } catch (error) {
     console.error("Error during registration:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -38,17 +38,18 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   try {
     const user = await User.findOne({ email });
-    console.log(user);
+    // console.log(user);
     if (!user) {
       return res.status(400).json({ message: "User does not exist" });
-    
+
     } else if (await bcrypt.compare(password, user.password)) {
-      res.status(200).json({ message: "Login successful" });
-    }else{
+      // console.log(user);
+      res.status(200).json({ message: "Login successful", user: user.username });
+    } else {
       return res.status(400).json({ message: "Invalid credentials" });
     }
   } catch (error) {

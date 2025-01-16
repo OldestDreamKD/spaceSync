@@ -12,9 +12,9 @@ const MarkerdescriptionsForm = ({ onClose, onSubmit }) => {
     const handleDeletedescription = () => {
         setdescriptions((prev) => {
             const newDescriptions = [...prev];
-            console.log(newDescriptions);
+            // console.log(newDescriptions);
             newDescriptions.pop();
-            console.log(newDescriptions);
+            // console.log(newDescriptions);
             return newDescriptions;
         });
     };

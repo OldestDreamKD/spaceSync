@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import FloorMapForm from '../components/FloorMapForm';
-import FloorMapList from '../components/FloorMapList';
-import Layout from '../components/layout';
+import FloorMapForm from '../components/floorMapForm';
+import FloorMapList from '../components/floorMapListAdmin';
+import Layout from '../components/headerAdmin';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 

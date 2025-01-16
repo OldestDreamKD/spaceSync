@@ -3,7 +3,7 @@ import { Row, Col, FloatingLabel, Form, Button, Stack, CloseButton } from "react
 
 const UpdateMarkerDescriptionsForm = ({ onClose, onSubmit, marker }) => {
     const [descriptions, setDescriptions] = useState(marker.details || [{ label: "", description: "" }]);
-    console.log(descriptions);
+    // console.log(descriptions);
     useEffect(() => {
         setDescriptions(marker.details || [{ label: "", description: "" }]);
     }, [marker]);

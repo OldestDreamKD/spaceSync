@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import Layout from '../components/layout';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Layout from '../components/headerAdmin';
 import MarkerDetailsForm from '../components/markerdescriptionsForm';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import axios from 'axios';
-import DeleteConfirmationModal from '../components/deleteConfirmationModal';
 import UpdateMarkerDetailsForm from '../components/updateMarkerDetailsForm';
+import { Modal, Button } from "react-bootstrap";
 
-const FloorMapEditor = () => {
+const FloorMap = () => {
     // ------------------------ State Variables ------------------------
 
     const location = useLocation();
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const mapId = queryParams.get('id'); // Get the floor map ID from URL query parameters
 
@@ -22,8 +23,10 @@ const FloorMapEditor = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); // Controls marker details form visibility
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false); // Controls marker details form visibility
     const [markerPin, setMarkerPin] = useState(null); // Stores the coordinates for a new marker
-    const [showModal, setShowModal] = useState(false); // Controls delete confirmation modal visibility
-    const [markerToDelete, setMarkerToDelete] = useState(null); // ID of the marker to be deleted
+    const [showMarkerDeleteModal, setMarkerDeleteShowModal] = useState(false); // Controls delete confirmation modal visibility
+    const [markerToDelete, setMarkerToDelete] = useState(null); // ID of the marker to be deletedconst 
+    const [showMapDeleteModal, setShowMapDeleteModal] = useState(false); // Controls delete confirmation modal visibility
+    const [mapToDelete, setMapToDelete] = useState(null); // ID of the marker to be deleted
     const [markerLayer, setMarkerLayer] = useState(L.layerGroup()); // Layer group for storing markers
     const [markerToEdit, setMarkerToEdit] = useState(null); // ID of the marker to be edited
 
@@ -142,7 +145,8 @@ const FloorMapEditor = () => {
                 if (deleteButton) {
                     deleteButton.addEventListener('click', () => {
                         const markerId = deleteButton.getAttribute('id');
-                        showDeleteModal(markerId);
+                        setMarkerToDelete(markerId);
+                        setMarkerDeleteShowModal(true)
                     });
                 }
             });
@@ -184,21 +188,21 @@ const FloorMapEditor = () => {
                 setIsEditDialogOpen(false);
                 fetchMarkers(map);
             }
-            console.log(response.data);
+            // console.log(response.data);
         } catch (error) {
             console.error('Error saving marker:', error);
         }
     };
 
     // Handle marker deletion
-    const handleDelete = async (markerId) => {
+    const handleMarkerDelete = async () => {
         try {
             const response = await axios.delete('http://localhost:2000/api/marker/delete', {
-                params: { _id: markerId },
+                params: { _id: markerToDelete },
             });
 
-            if (response.data.message.toLowerCase() === 'marker deleted successfully!') {
-                setShowModal(false);
+            if (response.data.message.toLowerCase() === 'marker and bookings deleted successfully!') {
+                setMarkerDeleteShowModal(false);
                 setMarkerToDelete(null);
                 fetchMarkers(map); // Refresh markers after deletion
             }
@@ -207,18 +211,21 @@ const FloorMapEditor = () => {
         }
     };
 
-    // Show delete confirmation modal
-    const showDeleteModal = (markerId) => {
-        setMarkerToDelete(markerId);
-        setShowModal(true);
-    };
+    const handleMapDelete = async () => {
+        try {
+            const response = await axios.delete('http://localhost:2000/api/floormaps/delete', {
+                params: { _id: mapToDelete },
+            });
 
-    // Close delete confirmation modal
-    const handleCloseModal = () => {
-        setShowModal(false);
-        setMarkerToDelete(null);
-    };
-
+            if (response.data.message.toLowerCase() === 'floorMap, associated markers, and bookings deleted successfully') {
+                setShowMapDeleteModal(false);
+                setMapToDelete(null);
+                navigate('/admindash')
+            }
+        } catch (error) {
+            console.error('Error deleting marker:', error);
+        }
+    }
     // ------------------------ JSX Rendering ------------------------
 
     return (
@@ -226,12 +233,20 @@ const FloorMapEditor = () => {
             <Layout />
             <div className="container">
                 <h2 className="my-4">Edit Floor Map</h2>
-                <button
-                    className={`btn ${isEditMode ? 'btn-danger' : 'btn-primary'}`}
-                    onClick={() => setIsEditMode((prev) => !prev)}
-                >
-                    {isEditMode ? 'Exit Edit Mode' : 'Enter Edit Mode'}
-                </button>
+                <div className="d-flex justify-content-between">
+
+                    <button
+                        className={`btn ${isEditMode ? 'btn-danger' : 'btn-primary'}`}
+                        onClick={() => setIsEditMode((prev) => !prev)}
+                    >
+                        {isEditMode ? 'Exit Edit Mode' : 'Enter Edit Mode'}
+                    </button>
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => { setShowMapDeleteModal(true); setMapToDelete(mapId) }}
+                    >Delete Map
+                    </button>
+                </div>
 
                 <div
                     ref={mapContainerRef}
@@ -250,12 +265,39 @@ const FloorMapEditor = () => {
                     />
                 )}
 
-                <DeleteConfirmationModal
-                    show={showModal}
-                    handleClose={handleCloseModal}
-                    handleConfirmDelete={handleDelete}
-                    markerId={markerToDelete}
-                />
+                {showMarkerDeleteModal && (
+                    <Modal show={showMarkerDeleteModal} onHide={() => setMarkerDeleteShowModal(false)}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Confirm Deletion</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Are you sure you want to delete this marker?</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="dark" onClick={() => { setMarkerDeleteShowModal(false); setMarkerToDelete(null) }}>
+                                Cancel
+                            </Button>
+                            <Button variant="danger" onClick={() => handleMarkerDelete()}>
+                                Delete
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
+
+                {showMapDeleteModal && (
+                    <Modal show={showMapDeleteModal} onHide={() => setShowMapDeleteModal(false)}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Confirm Deletion</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Are you sure you want to delete this marker?</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="dark" onClick={() => { setShowMapDeleteModal(false); setMapToDelete(null) }}>
+                                Cancel
+                            </Button>
+                            <Button variant="danger" onClick={() => handleMapDelete()}>
+                                Delete
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
 
                 {isEditDialogOpen && markerToEdit && (
                     <UpdateMarkerDetailsForm
@@ -269,4 +311,4 @@ const FloorMapEditor = () => {
     );
 };
 
-export default FloorMapEditor;
+export default FloorMap;
