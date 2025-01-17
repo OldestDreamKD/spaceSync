@@ -23,19 +23,19 @@ export default function Register() {
       const response = await axios.post(
         "https://workspacemapper.onrender.com/api/auth/register",
         formData);
-        
-      console.log(response.data.message)
-      if(response.data.message === 'Registration successful') {
+
+      // console.log(response.data.message)
+      if (response.data.message === 'Registration successful') {
         const sessionDuration = 60 * 60 * 1000; // 60 minutes
         const expiryTime = Date.now() + sessionDuration;
+        localStorage.setItem('username', response.data.user);
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('sessionExpiry', expiryTime);
-        navigate("/admindash");
+        navigate("/employeedash");
       }
     } catch (error) {
       console.error(error); // Handle error
-      console.log(error);
-      setError("IDK Something went wrong");
+      setError(error);
     }
   };
 
@@ -46,7 +46,7 @@ export default function Register() {
     >
       <Form onSubmit={handleSubmit} className="w-50 bg-white p-3 rounded-3">
         <p className="fs-4 fw-semibold">Create a TaskFlow Account</p>
-        <Form.Group className="mb-3" controlId="formGroupEmail">
+        <Form.Group className="mb-3" controlId="formGroupUsername">
           <Form.Label className="mb-1 ">Name</Form.Label>
           <Form.Control
             type="text"
@@ -76,7 +76,7 @@ export default function Register() {
             required
           />
         </Form.Group>
-        
+
 
         {error && (
           <Form.Label className="text-danger fw-semibold ">{error}</Form.Label>

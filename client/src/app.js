@@ -5,6 +5,11 @@ import Register from './pages/register';
 import Login from './pages/login';
 import ProtectedRoute from './utils/protectedRoute';
 import FloorMapEditor from './pages/floorMapEditor';
+import FloorMap from './pages/floorMap';
+import EmployeeDashboard from './pages/employeeDashboard';
+import UserBookedList from "./pages/userBookedList"
+import EmployeeList from "./pages/employeeList";
+import BookingList from './pages/bookingsList';
 
 const App = () => {
     return (
@@ -27,7 +32,43 @@ const App = () => {
                     <ProtectedRoute>
                         <FloorMapEditor />
                     </ProtectedRoute>
-                    } 
+                }
+                />
+
+                <Route path='/employeedash' element={
+                    <ProtectedRoute>
+                        <EmployeeDashboard />
+                    </ProtectedRoute>
+                }
+                />
+
+
+                <Route path='/map' element={
+                    <ProtectedRoute>
+                        <FloorMap />
+                    </ProtectedRoute>
+                }
+                />
+
+                <Route path='/list' element={
+                    <ProtectedRoute>
+                        <UserBookedList />
+                    </ProtectedRoute>
+                }
+                />
+
+                <Route path='/profile' element={
+                    <ProtectedRoute>
+                        <EmployeeList />
+                    </ProtectedRoute>
+                }
+                />
+
+                <Route path='/listall' element={
+                    <ProtectedRoute>
+                        <BookingList />
+                    </ProtectedRoute>
+                }
                 />
                 {/* Add other routes as needed */}
             </Routes>

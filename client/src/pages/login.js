@@ -15,39 +15,42 @@ export default function Login() {
     // Check if the user is already logged in
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const sessionExpiry = localStorage.getItem("sessionExpiry");
+    const username = localStorage.getItem("username")
 
-    if (isLoggedIn && sessionExpiry && Date.now() < parseInt(sessionExpiry, 10)) {
-      // Redirect to the dashboard if the session is valid
+    if (isLoggedIn && sessionExpiry && Date.now() < parseInt(sessionExpiry, 10) && username === 'admin') {
       navigate("/admindash");
+    } else if (isLoggedIn && sessionExpiry && Date.now() < parseInt(sessionExpiry, 10)) {
+      navigate("/employeedash")
     }
   }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (email === 'admin1@gmail.com' && password === 'admin123') {
+      const sessionDuration = 60 * 60 * 1000; // 60 minutes
+      const expiryTime = Date.now() + sessionDuration;
+      localStorage.setItem('username', 'admin');
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('sessionExpiry', expiryTime);
+      navigate("/admindash");
+
+    }
     try {
-      if(email == 't1@gmail.com' && password == '123456') {
+      const response = await axios.post("http://localhost:2000/api/auth/login",
+        { email, password }
+      );
+      // console.log(response.data.message)
+      if (response.data.message === 'Login successful') {
         const sessionDuration = 60 * 60 * 1000; // 60 minutes
         const expiryTime = Date.now() + sessionDuration;
+        localStorage.setItem('username', response.data.user);
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('sessionExpiry', expiryTime);
-        navigate("/admindash");
-      }else{
-        const response = await axios.post("https://workspacemapper.onrender.com/api/auth/login", 
-          { email, password }
-        );
-  
-        console.log(response.data.message)
-        if(response.data.message === 'Login successful') {
-          const sessionDuration = 60 * 60 * 1000; // 60 minutes
-          const expiryTime = Date.now() + sessionDuration;
-          localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('sessionExpiry', expiryTime);
-          navigate("/admindash");
-        }
+        navigate("/employeedash");
       }
     } catch (error) {
-      console.log(error)
-      setError(error.response?.data?.message || "An error occurred");
+      // console.log(error)
+      setError("Please correct Credentials");
     }
   };
 

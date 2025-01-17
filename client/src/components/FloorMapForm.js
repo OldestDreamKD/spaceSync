@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -63,6 +63,7 @@ const FloorMapForm = ({ onClose, onRefresh }) => {
                             value={floorMapName}
                             onChange={(e) => setFloorMapName(e.target.value)}
                             required
+                            autoComplete="off"
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">

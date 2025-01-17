@@ -1,32 +1,37 @@
 const express = require("express");
+const mongoose = require('mongoose');
 const session = require("express-session");
 const database = require("./config/db");
-const dotenv = require("dotenv");
+require('dotenv').config();
 const bodyparser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
 const cors = require("cors");
-const mongoose = require('mongoose');
-const floorMapRoutes = require('./routes/floorMapRoutes');
+const FloorMapRoutes = require('./routes/floorMapRoutes');
+const MapMarkerRoutes = require('./routes/mapMarkerRoutes');
+const BookingDetailsRoutes = require('./routes/bookingDetailsRoutes');
+const AdminRoutes = require('./routes/adminRoutes');
 
 database();
 
-dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://workspacemapper.onrender.com", // Allow requests from this origin
+    origin: "http://localhost:3000", // Allow requests from this origin
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
     credentials: true, // Allow cookies and other credentials
   })
 );
 
 app.use("/api/auth", authRoutes);
-app.use('/api/floormaps', floorMapRoutes); // Connect the new routes
+app.use('/api/floormaps', FloorMapRoutes);
+app.use('/api/booking', BookingDetailsRoutes);
+app.use('/api/admin', AdminRoutes);
+app.use('/api/marker', MapMarkerRoutes); // Connect the new routes
 
-const PORT = process.env.PORT || 2000;
+const PORT = process.env.PORT || 2001;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
