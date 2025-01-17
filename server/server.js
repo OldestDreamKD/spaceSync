@@ -8,6 +8,7 @@ const FloorMapRoutes = require('./routes/floorMapRoutes');
 const MapMarkerRoutes = require('./routes/mapMarkerRoutes');
 const BookingDetailsRoutes = require('./routes/bookingDetailsRoutes');
 const AdminRoutes = require('./routes/adminRoutes');
+const path = require('path');
 
 database();
 
@@ -22,7 +23,17 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.static(path.join(__dirname, 'client/build')));
 
+// API routes (for your backend)
+app.get('/api/data', (req, res) => {
+  res.json({ message: 'Hello from the backend!' });
+});
+
+// For all other routes, send back the React app's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 app.use("/api/auth", authRoutes);
 app.use('/api/floormaps', FloorMapRoutes);
