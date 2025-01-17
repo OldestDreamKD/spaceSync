@@ -195,6 +195,8 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                                     value={purpose}
                                     onChange={(e) => setPurpose(e.target.value)}
                                     placeholder="E.g., Meeting, Event, etc."
+                                    required
+                                    autoComplete="off"
                                 />
                             </Col>
                         </Form.Group>

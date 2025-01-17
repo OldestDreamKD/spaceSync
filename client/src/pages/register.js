@@ -35,7 +35,6 @@ export default function Register() {
       }
     } catch (error) {
       console.error(error); // Handle error
-      // console.log(error);
       setError(error);
     }
   };

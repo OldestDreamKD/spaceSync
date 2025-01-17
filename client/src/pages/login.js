@@ -50,7 +50,7 @@ export default function Login() {
       }
     } catch (error) {
       // console.log(error)
-      setError("error");
+      setError("Please correct Credentials");
     }
   };
 

@@ -52,6 +52,8 @@ const UpdateMarkerDescriptionsForm = ({ onClose, onSubmit, marker }) => {
                                         value={description.label}
                                         onChange={(e) => handleDescriptionChange(index, "label", e.target.value)}
                                         placeholder="Enter label"
+                                        required
+                                        autoComplete="off"
                                     />
                                 </FloatingLabel>
                             </Col>
@@ -62,6 +64,8 @@ const UpdateMarkerDescriptionsForm = ({ onClose, onSubmit, marker }) => {
                                         value={description.description}
                                         onChange={(e) => handleDescriptionChange(index, "description", e.target.value)}
                                         placeholder="Enter description"
+                                        required
+                                        autoComplete="off"
                                     />
                                 </FloatingLabel>
                             </Col>

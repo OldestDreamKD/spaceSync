@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const Booking = require('../models/bookings');
+const Marker = require('../models/marker');
 
 router.post('/upload', async (req, res) => {
     const newBooking = new Booking(req.body);
@@ -14,21 +15,39 @@ router.get('/', async (req, res) => {
     try {
         const username = [];
         const bookingsCustom = [];
+        const pastBookings = [];
         const user = await User.find();  // Fetch all users from the database
         user.forEach((user) => {
             username.push(user.username);
         });
-        const bookings = await Booking.find();  // Fetch all bookings from the database
         bookings.forEach((bookings) => {
-            bookingsCustom.push({
-                _id: bookings._id,
-                hoursReserved: bookings.hoursReserved,
-                bookingDate: bookings.bookingDate,
-                marker: bookings.markerId,
-                username: bookings.username,
-            });
+            const endTime = bookings.hoursReserved.endTime;
+            const bookingDate = new Date(bookings.bookingDate.split('/').reverse().join('-'));
+            const currentDate = new Date();
+
+            if (bookingDate < currentDate && (endTime < currentDate.getHours() + ':' + currentDate.getMinutes())) {
+
+                pastBookings.push({
+                    _id: bookings._id,
+                });
+            } else {
+                bookingsCustom.push({
+                    _id: bookings._id,
+                    hoursReserved: bookings.hoursReserved,
+                    bookingDate: bookings.bookingDate,
+                    marker: bookings.markerId,
+                    username: bookings.username,
+                });
+            }
         })
-        const bookings2 = await Booking.find().populate('markerId');
+
+        pastBookings.forEach(async (bookings) => {
+            const response = await Booking.deleteOne({ _id: bookings._id });
+            console.log(response);
+
+        })
+
+        //console.log(bookings);
         res.json({ message: 'Success', username, bookingsCustom });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching floor maps', error });
@@ -38,6 +57,7 @@ router.get('/', async (req, res) => {
 router.get('/explicit', async (req, res) => {
     try {
         const bookingsCustom = [];
+        const pastBookings = [];
         const bookings = await Booking.find().populate({
             path: 'markerId',
             populate: {
@@ -45,19 +65,37 @@ router.get('/explicit', async (req, res) => {
                 model: 'FloorMap'
             }
         });
+
         bookings.forEach((bookings) => {
-            bookingsCustom.push({
-                _id: bookings._id,
-                hoursReserved: bookings.hoursReserved,
-                bookingDate: bookings.bookingDate,
-                marker: bookings.markerId.details[0],
-                username: bookings.username,
-                purpose: bookings.purpose,
-                floorMap: bookings.markerId.floorMapId.name,
-                collaborators: bookings.collaborators,
-            });
+            const endTime = bookings.hoursReserved.endTime;
+            const bookingDate = new Date(bookings.bookingDate.split('/').reverse().join('-'));
+            const currentDate = new Date();
+
+            if (bookingDate < currentDate && (endTime < currentDate.getHours() + ':' + currentDate.getMinutes())) {
+
+                pastBookings.push({
+                    _id: bookings._id,
+                });
+            } else {
+                bookingsCustom.push({
+                    _id: bookings._id,
+                    hoursReserved: bookings.hoursReserved,
+                    bookingDate: bookings.bookingDate,
+                    marker: bookings.markerId.details[0],
+                    username: bookings.username,
+                    purpose: bookings.purpose,
+                    floorMap: bookings.markerId.floorMapId.name,
+                    collaborators: bookings.collaborators,
+                });
+            }
         })
-        console.log(bookingsCustom)
+
+        pastBookings.forEach(async (bookings) => {
+            const response = await Booking.deleteOne({ _id: bookings._id });
+            console.log(response);
+
+        })
+
         res.json({ message: 'Success', bookingsCustom });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching Bookings', error });

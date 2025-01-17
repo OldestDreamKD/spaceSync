@@ -63,6 +63,7 @@ const FloorMapForm = ({ onClose, onRefresh }) => {
                             value={floorMapName}
                             onChange={(e) => setFloorMapName(e.target.value)}
                             required
+                            autoComplete="off"
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
