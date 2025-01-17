@@ -21,7 +21,7 @@ export default function Register() {
     };
     try {
       const response = await axios.post(
-        "http://localhost:2000/api/auth/register",
+        "https://workspacemapper.onrender.com/api/auth/register",
         formData);
 
       // console.log(response.data.message)

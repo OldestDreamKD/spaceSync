@@ -26,7 +26,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email == 'admin1@gmail.com' && password == 'admin123') {
+    if (email === 'admin1@gmail.com' && password === 'admin123') {
       const sessionDuration = 60 * 60 * 1000; // 60 minutes
       const expiryTime = Date.now() + sessionDuration;
       localStorage.setItem('username', 'admin');
