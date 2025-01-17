@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"npm run build-client\" \"npm run server\"",
     "server": "npm start --prefix server",
-    "client": "npm start --prefix client"
+    "client": "npm start --prefix client",
+    "build-client": "npm run build --prefix client"
   },
   "dependencies": {
     "concurrently": "^9.1.2",
