@@ -9,6 +9,7 @@ import BookingForm from '../components/bookingForm';
 const FloorMapViewer = () => {
     // ------------------------ State Variables ------------------------
 
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const mapId = queryParams.get('id'); // Get the floor map ID from URL query parameters
@@ -63,7 +64,7 @@ const FloorMapViewer = () => {
     // Fetch markers from the server and render them on the map
     const fetchMarkers = async (leafletMap) => {
         try {
-            const response = await axios.get('https://workspacemapper.onrender.com/api/marker/', {
+            const response = await axios.get(`${apiUrl}/api/marker/`, {
                 params: { mapId },
             });
             const data = response.data;
@@ -121,7 +122,7 @@ const FloorMapViewer = () => {
     // Fetch marker details for booking
     const fetchMarkerBookings = async (markerId) => {
         try {
-            const response = await axios.get('https://workspacemapper.onrender.com/api/marker/markerDetails', {
+            const response = await axios.get(`${apiUrl}/api/marker/markerDetails`, {
                 params: { markerId: markerId }
             });
             setMarkerToBook(response.data);
@@ -134,7 +135,7 @@ const FloorMapViewer = () => {
     const handleBookingFormSubmit = async (formData) => {
         try {
             // console.log(formData);
-            const response = await axios.post('https://workspacemapper.onrender.com/api/booking/upload', formData);
+            const response = await axios.post(`${apiUrl}/api/booking/upload`, formData);
             if (response.data.message.toLowerCase() === 'bookings succesfully created!') {
                 setIsBookingDialogOpen(false);
                 fetchMarkers(map);

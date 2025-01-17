@@ -5,6 +5,7 @@ import axios from "axios";
 import BookingForm from "../components/bookingForm"
 
 const FloorMapManagement = () => {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
     const username = localStorage.getItem("username");
     const [bookedList, setBookedList] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -15,7 +16,7 @@ const FloorMapManagement = () => {
 
     const getBookedResourcesList = async () => {
         try {
-            const response = await axios.get("https://workspacemapper.onrender.com/api/booking/explicit");
+            const response = await axios.get(`${apiUrl}/api/booking/explicit`);
             console.log(response.data);
             const bookedResources = response.data.bookingsCustom;
             const userBookedResources = bookedResources.filter((list) => {
@@ -36,7 +37,7 @@ const FloorMapManagement = () => {
     const handleDelete = async () => {
         try {
             // console.log(bookingToDelete);
-            const response = await axios.delete('https://workspacemapper.onrender.com/api/booking/delete', {
+            const response = await axios.delete(`${apiUrl}/api/booking/delete`, {
                 params: { _id: bookingToDelete },
             });
 
@@ -59,7 +60,7 @@ const FloorMapManagement = () => {
     const handleMarkerEditFormSubmit = async (formData) => {
         try {
             console.log(formData);
-            const response = await axios.put('https://workspacemapper.onrender.com/api/booking/update', formData);
+            const response = await axios.put(`${apiUrl}/api/booking/update`, formData);
             if (response.data.message.toLowerCase() === 'bookings succesfully updated!') {
                 setIsEditDialogOpen(false);
                 getBookedResourcesList();
@@ -102,10 +103,10 @@ const FloorMapManagement = () => {
                                         <td>{booking.marker.description}</td>
                                         <td>
                                             <ul>
-                                                {booking.collaborators.length != 0 && booking.collaborators.map((people, index) => {
+                                                {booking.collaborators.length !== 0 && booking.collaborators.map((people, index) => {
                                                     return <li key={index}>{people}</li>
                                                 })}
-                                                {booking.collaborators.length == 0 && (
+                                                {booking.collaborators.length === 0 && (
                                                     <li key='0'>No Collaborators</li>)
                                                 }
                                             </ul>
@@ -126,7 +127,7 @@ const FloorMapManagement = () => {
                     </div>
                 )
             }
-            {bookedList.length == 0 && (
+            {bookedList.length === 0 && (
                 <div className='container mt-3'>
                     <h4 className=" my-4 ">No Bookings Found</h4>
                 </div>

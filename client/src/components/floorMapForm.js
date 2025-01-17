@@ -7,6 +7,7 @@ import Stack from 'react-bootstrap/Stack';
 import axios from 'axios';
 
 const FloorMapForm = ({ onClose, onRefresh }) => {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
     const [floorMapName, setFloorMapName] = useState('');
     const [fileUrl, setFileUrl] = useState('');
     const [message, setMessage] = useState('');
@@ -35,7 +36,7 @@ const FloorMapForm = ({ onClose, onRefresh }) => {
         };
 
         try {
-            await axios.post('https://workspacemapper.onrender.com/api/floormaps/upload', formData);
+            await axios.post(`${apiUrl}/api/floormaps/upload`, formData);
             setMessage('Floor map uploaded successfully!');
             setFloorMapName('');
             setFileUrl('');

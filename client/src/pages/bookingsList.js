@@ -4,12 +4,13 @@ import axios from "axios";
 import { Table, Form, FloatingLabel } from 'react-bootstrap';
 
 const BookingList = () => {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
     const [bookings, setBookings] = useState([]);
     const [sortBy, setSortBy] = useState(""); // Track sorting criteria
 
     const retriveBooking = async () => {
         try {
-            const response = await axios.get("https://workspacemapper.onrender.com/api/booking/explicit");
+            const response = await axios.get(`${apiUrl}/api/booking/explicit`);
             console.log(response.data.bookingsCustom);
             const sortedBookings = response.data.bookingsCustom.sort();
             setBookings(sortedBookings);

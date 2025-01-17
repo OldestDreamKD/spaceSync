@@ -6,6 +6,7 @@ import Stack from "react-bootstrap/Stack";
 import axios from "axios";
 
 export default function Register() {
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -21,7 +22,7 @@ export default function Register() {
     };
     try {
       const response = await axios.post(
-        "https://workspacemapper.onrender.com/api/auth/register",
+        `${apiUrl}/api/auth/register`,
         formData);
 
       // console.log(response.data.message)

@@ -4,6 +4,7 @@ import axios from "axios";
 import { Table, Button } from 'react-bootstrap';
 
 const EmployeeList = () => {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
     const [employees, setEmployees] = useState([]);
     const [bookedList, setBookedList] = useState([]);
     const [show, setShow] = useState(false);
@@ -11,7 +12,7 @@ const EmployeeList = () => {
 
     const getEmployeesList = async () => {
         try {
-            const response = await axios.get("https://workspacemapper.onrender.com/api/admin/users");
+            const response = await axios.get(`${apiUrl}/api/admin/users`);
             if (response.data.message.toLowerCase() === "users retrieved successfully!") {
                 setEmployees(response.data.usersWithBookings);
             }
@@ -32,7 +33,7 @@ const EmployeeList = () => {
 
     const getBookedResourcesList = async () => {
         try {
-            const response = await axios.get("https://workspacemapper.onrender.com/api/booking/explicit");
+            const response = await axios.get(`${apiUrl}/api/booking/explicit`);
             const bookedResources = response.data.bookingsCustom;
             const userBookedResources = bookedResources.filter((list) => {
                 return list.username === selectedUser;

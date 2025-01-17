@@ -41,7 +41,7 @@ app.use('/api/booking', BookingDetailsRoutes);
 app.use('/api/admin', AdminRoutes);
 app.use('/api/marker', MapMarkerRoutes); // Connect the new routes
 
-const PORT = process.env.PORT || 2001;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

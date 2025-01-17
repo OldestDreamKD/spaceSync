@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
 
 const FloorMapListAdmin = ({ refresh }) => {
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
     const [floorMaps, setFloorMaps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -12,7 +13,7 @@ const FloorMapListAdmin = ({ refresh }) => {
         const fetchFloorMaps = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get('https://workspacemapper.onrender.com/api/floormaps');
+                const response = await axios.get(`${apiUrl}/api/floormaps`);
                 setFloorMaps(Array.isArray(response.data) ? response.data : []);
             } catch (err) {
                 console.error('Error fetching floor maps:', err);
