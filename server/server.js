@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 // For all other routes, send back the React app's index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  console.log('Serving static files from:', (path.join(__dirname, '../client/build/index.html'));
+  console.log('Serving static files from:', (path.join(__dirname, '../client/build/index.html')));
 
 });
 
