@@ -4,7 +4,7 @@ import axios from "axios";
 import { Table, Button } from 'react-bootstrap';
 
 const EmployeeList = () => {
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
     const [employees, setEmployees] = useState([]);
     const [bookedList, setBookedList] = useState([]);
     const [show, setShow] = useState(false);

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const FloorMapList = ({ refresh }) => { // Accept refresh as a prop
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
     const [floorMaps, setFloorMaps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

@@ -5,7 +5,7 @@ import axios from "axios";
 import BookingForm from "../components/bookingForm"
 
 const FloorMapManagement = () => {
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
     const username = localStorage.getItem("username");
     const [bookedList, setBookedList] = useState([]);
     const [showModal, setShowModal] = useState(false);

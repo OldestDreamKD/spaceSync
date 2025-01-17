@@ -7,7 +7,7 @@ import Stack from 'react-bootstrap/Stack';
 import axios from 'axios';
 
 const FloorMapForm = ({ onClose, onRefresh }) => {
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
     const [floorMapName, setFloorMapName] = useState('');
     const [fileUrl, setFileUrl] = useState('');
     const [message, setMessage] = useState('');

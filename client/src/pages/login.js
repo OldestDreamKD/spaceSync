@@ -6,7 +6,7 @@ import Stack from "react-bootstrap/Stack";
 import axios from "axios";
 
 export default function Login() {
-  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -35,24 +35,26 @@ export default function Login() {
       localStorage.setItem('sessionExpiry', expiryTime);
       navigate("/admindash");
 
-    }
-    try {
-      const response = await axios.post(
-        `${apiUrl}/api/auth/login`,
-        { email, password }
-      );
-      // console.log(response.data.message)
-      if (response.data.message === 'Login successful') {
-        const sessionDuration = 60 * 60 * 1000; // 60 minutes
-        const expiryTime = Date.now() + sessionDuration;
-        localStorage.setItem('username', response.data.user);
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('sessionExpiry', expiryTime);
-        navigate("/employeedash");
+    } else {
+      try {
+        const response = await axios.post(
+          `${apiUrl}/api/auth/login`,
+          { email, password }
+        );
+        // console.log(response.data.message)
+        if (response.data.message === 'Login successful') {
+          const sessionDuration = 60 * 60 * 1000; // 60 minutes
+          const expiryTime = Date.now() + sessionDuration;
+          localStorage.setItem('username', response.data.user);
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('sessionExpiry', expiryTime);
+          navigate("/employeedash");
+        }
+      } catch (error) {
+        // console.log(error)
+        setError("Please correct Credentials");
       }
-    } catch (error) {
-      // console.log(error)
-      setError("Please correct Credentials");
+
     }
   };
 

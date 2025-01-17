@@ -11,7 +11,7 @@ import { Modal, Button } from "react-bootstrap";
 const FloorMap = () => {
     // ------------------------ State Variables ------------------------
 
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
@@ -214,11 +214,10 @@ const FloorMap = () => {
 
     const handleMapDelete = async () => {
         try {
-            const response = await axios.delete(`${apiUrl}/api/floormaps/delete `, {
+            const response = await axios.delete(`${apiUrl}/api/floormaps/delete`, {
                 params: { _id: mapToDelete },
             });
-
-            if (response.data.message.toLowerCase() === 'floorMap, associated markers, and bookings deleted successfully') {
+            if (response.status === 200) {
                 setShowMapDeleteModal(false);
                 setMapToDelete(null);
                 navigate('/admindash')

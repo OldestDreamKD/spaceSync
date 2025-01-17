@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
 
 const FloorMapListEmp = ({ refresh }) => {
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
     const [floorMaps, setFloorMaps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

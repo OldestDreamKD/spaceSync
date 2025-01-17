@@ -4,7 +4,7 @@ import axios from "axios";
 import { Table, Form, FloatingLabel } from 'react-bootstrap';
 
 const BookingList = () => {
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
     const [bookings, setBookings] = useState([]);
     const [sortBy, setSortBy] = useState(""); // Track sorting criteria
 

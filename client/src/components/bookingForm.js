@@ -11,7 +11,7 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
     // Retrieve username from local storage
     const username = localStorage.getItem("username");
 
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
     // States for managing form inputs
     const [date, setDate] = useState(new Date()); // Selected date for booking
     const [startTime, setStartTime] = useState("09:00"); // Start time of booking

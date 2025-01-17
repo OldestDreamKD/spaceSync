@@ -6,7 +6,7 @@ import Stack from "react-bootstrap/Stack";
 import axios from "axios";
 
 export default function Register() {
-  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");

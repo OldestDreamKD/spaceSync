@@ -9,7 +9,7 @@ import BookingForm from '../components/bookingForm';
 const FloorMapViewer = () => {
     // ------------------------ State Variables ------------------------
 
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const mapId = queryParams.get('id'); // Get the floor map ID from URL query parameters
