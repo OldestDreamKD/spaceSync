@@ -15,7 +15,7 @@ const FloorMapManagement = () => {
 
     const getBookedResourcesList = async () => {
         try {
-            const response = await axios.get("http://localhost:2000/api/booking/explicit");
+            const response = await axios.get("https://workspacemapper.onrender.com/api/booking/explicit");
             console.log(response.data);
             const bookedResources = response.data.bookingsCustom;
             const userBookedResources = bookedResources.filter((list) => {
@@ -36,7 +36,7 @@ const FloorMapManagement = () => {
     const handleDelete = async () => {
         try {
             // console.log(bookingToDelete);
-            const response = await axios.delete('http://localhost:2000/api/booking/delete', {
+            const response = await axios.delete('https://workspacemapper.onrender.com/api/booking/delete', {
                 params: { _id: bookingToDelete },
             });
 
@@ -59,7 +59,7 @@ const FloorMapManagement = () => {
     const handleMarkerEditFormSubmit = async (formData) => {
         try {
             console.log(formData);
-            const response = await axios.put('http://localhost:2000/api/booking/update', formData);
+            const response = await axios.put('https://workspacemapper.onrender.com/api/booking/update', formData);
             if (response.data.message.toLowerCase() === 'bookings succesfully updated!') {
                 setIsEditDialogOpen(false);
                 getBookedResourcesList();

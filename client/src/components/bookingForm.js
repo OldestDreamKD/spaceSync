@@ -48,7 +48,7 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
             setLoading(true); // Set loading state
 
             // Fetch data from the server
-            const response = await axios.get("http://localhost:2000/api/booking/");
+            const response = await axios.get("https://workspacemapper.onrender.com/api/booking/");
 
             // Extract users excluding the current user
             const users = response.data.username.filter((e) => e !== username);

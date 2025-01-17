@@ -1,6 +1,4 @@
 const express = require("express");
-const mongoose = require('mongoose');
-const session = require("express-session");
 const database = require("./config/db");
 require('dotenv').config();
 const bodyparser = require("body-parser");
@@ -19,11 +17,12 @@ app.use(express.static("public"));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow requests from this origin
-    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
-    credentials: true, // Allow cookies and other credentials
+    origin: ["http://localhost:3000", "https://workspacemapper.onrender.com"], // Allow both local and production requests
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
+
 
 app.use("/api/auth", authRoutes);
 app.use('/api/floormaps', FloorMapRoutes);

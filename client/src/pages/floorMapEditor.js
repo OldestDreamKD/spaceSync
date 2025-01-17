@@ -90,7 +90,7 @@ const FloorMap = () => {
     // Fetch markers from the server and render them on the map
     const fetchMarkers = async (leafletMap) => {
         try {
-            const response = await axios.get('http://localhost:2000/api/marker/', {
+            const response = await axios.get('https://workspacemapper.onrender.com/api/marker/', {
                 params: { mapId },
             });
             const data = response.data;
@@ -156,7 +156,7 @@ const FloorMap = () => {
     };
     const fetchMarkerDetails = async (markerId) => {
         try {
-            const response = await axios.get('http://localhost:2000/api/marker/markerDetails', {
+            const response = await axios.get('https://workspacemapper.onrender.com/api/marker/markerDetails', {
                 params: { markerId: markerId }
             });
             setMarkerToEdit(response.data);
@@ -168,7 +168,7 @@ const FloorMap = () => {
     const handleMarkerFormSubmit = async (formData) => {
         try {
             const fullMarkerData = { ...markerPin, details: formData, mapId };
-            const response = await axios.post('http://localhost:2000/api/marker/upload', fullMarkerData);
+            const response = await axios.post('https://workspacemapper.onrender.com/api/marker/upload', fullMarkerData);
 
             setIsDialogOpen(false);
 
@@ -183,7 +183,7 @@ const FloorMap = () => {
     // Handle marker editing (to be implemented)
     const handleMarkerEditFormSubmit = async (formData) => {
         try {
-            const response = await axios.put('http://localhost:2000/api/marker/update', formData);
+            const response = await axios.put('https://workspacemapper.onrender.com/api/marker/update', formData);
             if (response.data.message.toLowerCase() === 'markers succesfully updated!') {
                 setIsEditDialogOpen(false);
                 fetchMarkers(map);
@@ -197,7 +197,7 @@ const FloorMap = () => {
     // Handle marker deletion
     const handleMarkerDelete = async () => {
         try {
-            const response = await axios.delete('http://localhost:2000/api/marker/delete', {
+            const response = await axios.delete('https://workspacemapper.onrender.com/api/marker/delete', {
                 params: { _id: markerToDelete },
             });
 
@@ -213,7 +213,7 @@ const FloorMap = () => {
 
     const handleMapDelete = async () => {
         try {
-            const response = await axios.delete('http://localhost:2000/api/floormaps/delete', {
+            const response = await axios.delete('https://workspacemapper.onrender.com/api/floormaps/delete', {
                 params: { _id: mapToDelete },
             });
 

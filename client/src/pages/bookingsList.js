@@ -9,7 +9,7 @@ const BookingList = () => {
 
     const retriveBooking = async () => {
         try {
-            const response = await axios.get("http://localhost:2000/api/booking/explicit");
+            const response = await axios.get("https://workspacemapper.onrender.com/api/booking/explicit");
             console.log(response.data.bookingsCustom);
             const sortedBookings = response.data.bookingsCustom.sort();
             setBookings(sortedBookings);
