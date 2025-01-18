@@ -7,6 +7,8 @@ import axios from "axios";
 
 export default function Login() {
   const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
+  const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
+  const adminPassword = process.env.REACT_APP_ADMIN_PASSWORD;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -26,8 +28,7 @@ export default function Login() {
   }, [navigate]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (email === 'admin1@gmail.com' && password === 'admin123') {
+    if (email === adminEmail && password === adminPassword) {
       const sessionDuration = 60 * 60 * 1000; // 60 minutes
       const expiryTime = Date.now() + sessionDuration;
       localStorage.setItem('username', 'admin');

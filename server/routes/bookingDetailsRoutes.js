@@ -20,6 +20,14 @@ router.get('/', async (req, res) => {
         user.forEach((user) => {
             username.push(user.username);
         });
+        const bookings = await Booking.find().populate({
+            path: 'markerId',
+            populate: {
+                path: 'floorMapId',
+                model: 'FloorMap'
+            }
+        });
+
         bookings.forEach((bookings) => {
             const endTime = bookings.hoursReserved.endTime;
             const bookingDate = new Date(bookings.bookingDate.split('/').reverse().join('-'));
@@ -111,7 +119,7 @@ router.put('/update', async (req, res) => {
         booked.bookingDate = newBookedDetails.bookingDate;
         booked.purpose = newBookedDetails.purpose;
         booked.collaborators = newBookedDetails.collaborators;
-        const response = await booked.save();
+        await booked.save();
         res.status(201).json({ message: 'Bookings succesfully updated!' });
     } catch (error) {
         res.status(500).json({ message: 'Error updaing Bookings', error });

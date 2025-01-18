@@ -56,8 +56,14 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
             setCollaborators(users);
 
             // Retrieve current marker bookings
-            const retrievedBookings = response.data.bookingsCustom.filter((e) => e.marker === markerId);
-            setCurrentMarkerBookings(booked ? retrievedBookings.filter((e) => e._id !== booked._id) : retrievedBookings);
+            const retrievedBookings = response.data.bookingsCustom.filter((e) => e.marker._id === markerId);
+            if (booked) {
+                retrievedBookings.filter((e) => e._id !== booked._id)
+                setCurrentMarkerBookings(retrievedBookings);
+            } else {
+                setCurrentMarkerBookings(retrievedBookings);
+            }
+            // setCurrentMarkerBookings(booked ? retrievedBookings.filter((e) => e._id !== booked._id) : retrievedBookings);
         } catch (error) {
             console.error("Error fetching collaborators:", error);
         } finally {
