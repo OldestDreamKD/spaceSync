@@ -59,7 +59,6 @@ const FloorMapManagement = () => {
 
     const handleMarkerEditFormSubmit = async (formData) => {
         try {
-            e.preventDefault()
             console.log(formData);
             const response = await axios.put(`${apiUrl}/api/booking/update`, formData);
             if (response.data.message.toLowerCase() === 'bookings succesfully updated!') {

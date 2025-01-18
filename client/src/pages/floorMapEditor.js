@@ -168,7 +168,6 @@ const FloorMap = () => {
     // Submit marker details form and save marker to the database
     const handleMarkerFormSubmit = async (formData) => {
         try {
-            e.preventDefault()
             const fullMarkerData = { ...markerPin, details: formData, mapId };
             const response = await axios.post(`${apiUrl}/api/marker/upload`, fullMarkerData);
 
@@ -185,7 +184,6 @@ const FloorMap = () => {
     // Handle marker editing (to be implemented)
     const handleMarkerEditFormSubmit = async (formData) => {
         try {
-            e.preventDefault()
             const response = await axios.put(`${apiUrl}/api/marker/update`, formData);
             if (response.data.message.toLowerCase() === 'markers succesfully updated!') {
                 setIsEditDialogOpen(false);
