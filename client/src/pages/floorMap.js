@@ -134,6 +134,7 @@ const FloorMapViewer = () => {
     // Handle marker editing
     const handleBookingFormSubmit = async (formData) => {
         try {
+            e.preventDefault()
             // console.log(formData);
             const response = await axios.post(`${apiUrl}/api/booking/upload`, formData);
             if (response.data.message.toLowerCase() === 'bookings succesfully created!') {

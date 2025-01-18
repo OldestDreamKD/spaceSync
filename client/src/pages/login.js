@@ -26,8 +26,9 @@ export default function Login() {
       navigate("/employeedash")
     }
   }, [navigate]);
-
   const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
     if (email === adminEmail && password === adminPassword) {
       const sessionDuration = 60 * 60 * 1000; // 60 minutes
       const expiryTime = Date.now() + sessionDuration;
@@ -35,14 +36,14 @@ export default function Login() {
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('sessionExpiry', expiryTime);
       navigate("/admindash");
-
     } else {
       try {
         const response = await axios.post(
           `${apiUrl}/api/auth/login`,
           { email, password }
         );
-        // console.log(response.data.message)
+        // console.log(response)
+
         if (response.data.message === 'Login successful') {
           const sessionDuration = 60 * 60 * 1000; // 60 minutes
           const expiryTime = Date.now() + sessionDuration;
@@ -52,10 +53,9 @@ export default function Login() {
           navigate("/employeedash");
         }
       } catch (error) {
-        // console.log(error)
+        // console.log(error);
         setError("Please correct Credentials");
       }
-
     }
   };
 
