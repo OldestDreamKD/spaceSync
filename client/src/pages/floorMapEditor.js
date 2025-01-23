@@ -198,7 +198,7 @@ const FloorMap = () => {
     // Handle marker deletion
     const handleMarkerDelete = async () => {
         try {
-            const response = await axios.delete(`${apiUrl}/api/marker/delete `, {
+            const response = await axios.delete(`${apiUrl}/api/marker/delete`, {
                 params: { _id: markerToDelete },
             });
 
