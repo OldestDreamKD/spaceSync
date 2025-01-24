@@ -20,7 +20,7 @@ const FloorMap = () => {
     const mapContainerRef = useRef(null); // Reference for the map container DOM element
     const [map, setMap] = useState(null); // Leaflet map instance
     const [imageDimensions, setImageDimensions] = useState(null); // Dimensions of the map image
-    const [isEditMode, setIsEditMode] = useState(false); // Toggles Edit Mode
+    const [isCreateMode, setIsCreateMode] = useState(false); // Toggles Edit Mode
     const [isDialogOpen, setIsDialogOpen] = useState(false); // Controls marker details form visibility
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false); // Controls marker details form visibility
     const [markerPin, setMarkerPin] = useState(null); // Stores the coordinates for a new marker
@@ -31,12 +31,12 @@ const FloorMap = () => {
     const [markerLayer, setMarkerLayer] = useState(L.layerGroup()); // Layer group for storing markers
     const [markerToEdit, setMarkerToEdit] = useState(null); // ID of the marker to be edited
 
-    const isEditModeRef = useRef(isEditMode); // Ref to sync the latest isEditMode value
+    const isCreateModeRef = useRef(isCreateMode); // Ref to sync the latest isCreateMode value
 
-    // Sync the latest isEditMode value with the ref
+    // Sync the latest isCreateMode value with the ref
     useEffect(() => {
-        isEditModeRef.current = isEditMode;
-    }, [isEditMode]);
+        isCreateModeRef.current = isCreateMode;
+    }, [isCreateMode]);
 
     // ------------------------ Effect Hooks ------------------------
 
@@ -75,7 +75,7 @@ const FloorMap = () => {
 
         // Add a click handler to place markers in Edit Mode
         leafletMap.on('click', (e) => {
-            if (isEditModeRef.current) {
+            if (isCreateModeRef.current) {
                 const lat = e.latlng.lat;
                 const lng = e.latlng.lng;
                 setMarkerPin({ lat, lng });
@@ -236,10 +236,10 @@ const FloorMap = () => {
                 <div className="d-flex justify-content-between">
 
                     <button
-                        className={`btn ${isEditMode ? 'btn-danger' : 'btn-primary'}`}
-                        onClick={() => setIsEditMode((prev) => !prev)}
+                        className={`btn ${isCreateMode ? 'btn-danger' : 'btn-primary'}`}
+                        onClick={() => setIsCreateMode((prev) => !prev)}
                     >
-                        {isEditMode ? 'Exit Edit Mode' : 'Enter Edit Mode'}
+                        {isCreateMode ? 'Exit Create Mode' : 'Enter Create Mode'}
                     </button>
                     <button
                         className="btn btn-danger"
