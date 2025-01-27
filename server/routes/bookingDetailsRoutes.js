@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
             const bookingDate = new Date(bookings.bookingDate.split('/').reverse().join('-'));
             const currentDate = new Date();
 
-            if (bookingDate < currentDate && (endTime < currentDate.getHours() + ':' + currentDate.getMinutes())) {
+            if (bookingDate > currentDate && (endTime < currentDate.getHours() + ':' + currentDate.getMinutes())) {
 
                 pastBookings.push({
                     _id: bookings._id,
@@ -51,11 +51,11 @@ router.get('/', async (req, res) => {
 
         pastBookings.forEach(async (bookings) => {
             const response = await Booking.deleteOne({ _id: bookings._id });
-            console.log(response);
+            //console.log(response);
 
         })
 
-        //console.log(bookings);
+        ////console.log(bookings);
         res.json({ message: 'Success', username, bookingsCustom });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching floor maps', error });
@@ -79,7 +79,7 @@ router.get('/explicit', async (req, res) => {
             const bookingDate = new Date(bookings.bookingDate.split('/').reverse().join('-'));
             const currentDate = new Date();
 
-            if (bookingDate < currentDate && (endTime < currentDate.getHours() + ':' + currentDate.getMinutes())) {
+            if (bookingDate > currentDate && (endTime < currentDate.getHours() + ':' + currentDate.getMinutes())) {
 
                 pastBookings.push({
                     _id: bookings._id,
@@ -100,7 +100,7 @@ router.get('/explicit', async (req, res) => {
 
         pastBookings.forEach(async (bookings) => {
             const response = await Booking.deleteOne({ _id: bookings._id });
-            console.log(response);
+            //console.log(response);
 
         })
 
