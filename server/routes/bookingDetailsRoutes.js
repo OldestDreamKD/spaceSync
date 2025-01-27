@@ -28,23 +28,24 @@ router.get('/', async (req, res) => {
             }
         });
 
-        bookings.forEach((bookings) => {
-            const endTime = bookings.hoursReserved.endTime;
-            const bookingDate = new Date(bookings.bookingDate.split('/').reverse().join('-'));
+        bookings.forEach((booking) => {
+            const endTime = booking.hoursReserved.endTime;
+            const bookingDate = new Date(booking.bookingDate.split('/').reverse().join('-'));
             const currentDate = new Date();
+            const currentTime = currentDate.getHours() + ':' + currentDate.getMinutes();
 
-            if (bookingDate > currentDate && (endTime < currentDate.getHours() + ':' + currentDate.getMinutes())) {
+            if (bookingDate <= currentDate && (endTime <= currentTime)) {
 
                 pastBookings.push({
-                    _id: bookings._id,
+                    _id: booking._id,
                 });
             } else {
                 bookingsCustom.push({
-                    _id: bookings._id,
-                    hoursReserved: bookings.hoursReserved,
-                    bookingDate: bookings.bookingDate,
-                    marker: bookings.markerId,
-                    username: bookings.username,
+                    _id: booking._id,
+                    hoursReserved: booking.hoursReserved,
+                    bookingDate: booking.bookingDate,
+                    marker: booking.markerId,
+                    username: booking.username,
                 });
             }
         })
@@ -55,7 +56,8 @@ router.get('/', async (req, res) => {
 
         })
 
-        ////console.log(bookings);
+        // console.log(username);
+        // console.log(bookingsCustom);
         res.json({ message: 'Success', username, bookingsCustom });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching floor maps', error });
@@ -74,26 +76,24 @@ router.get('/explicit', async (req, res) => {
             }
         });
 
-        bookings.forEach((bookings) => {
-            const endTime = bookings.hoursReserved.endTime;
-            const bookingDate = new Date(bookings.bookingDate.split('/').reverse().join('-'));
+        bookings.forEach((booking) => {
+            const endTime = booking.hoursReserved.endTime;
+            const bookingDate = new Date(booking.bookingDate.split('/').reverse().join('-'));
             const currentDate = new Date();
+            const currentTime = currentDate.getHours() + ':' + currentDate.getMinutes();
 
-            if (bookingDate > currentDate && (endTime < currentDate.getHours() + ':' + currentDate.getMinutes())) {
-
-                pastBookings.push({
-                    _id: bookings._id,
-                });
+            if (bookingDate <= currentDate && (endTime <= currentTime)) {
+                pastBookings.push({ _id: booking._id });
             } else {
                 bookingsCustom.push({
-                    _id: bookings._id,
-                    hoursReserved: bookings.hoursReserved,
-                    bookingDate: bookings.bookingDate,
-                    marker: bookings.markerId.details[0],
-                    username: bookings.username,
-                    purpose: bookings.purpose,
-                    floorMap: bookings.markerId.floorMapId.name,
-                    collaborators: bookings.collaborators,
+                    _id: booking._id,
+                    hoursReserved: booking.hoursReserved,
+                    bookingDate: booking.bookingDate,
+                    marker: booking.markerId.details[0],
+                    username: booking.username,
+                    purpose: booking.purpose,
+                    floorMap: booking.markerId.floorMapId.name,
+                    collaborators: booking.collaborators,
                 });
             }
         })

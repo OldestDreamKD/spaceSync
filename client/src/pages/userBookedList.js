@@ -36,7 +36,7 @@ const FloorMapManagement = () => {
 
     const handleDelete = async () => {
         try {
-            // console.log(bookingToDelete);
+            console.log(bookingToDelete);
             const response = await axios.delete(`${apiUrl}/api/booking/delete`, {
                 params: { _id: bookingToDelete },
             });
