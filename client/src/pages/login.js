@@ -28,34 +28,25 @@ export default function Login() {
   }, [navigate]);
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
+    try {
+      const response = await axios.post(
+        `${apiUrl}/api/auth/login`,
+        { email, password }
+      );
+      // console.log(response)
 
-    if (email === adminEmail && password === adminPassword) {
-      const sessionDuration = 60 * 60 * 1000; // 60 minutes
-      const expiryTime = Date.now() + sessionDuration;
-      localStorage.setItem('username', 'admin');
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('sessionExpiry', expiryTime);
-      navigate("/admindash");
-    } else {
-      try {
-        const response = await axios.post(
-          `${apiUrl}/api/auth/login`,
-          { email, password }
-        );
-        // console.log(response)
-
-        if (response.data.message === 'Login successful') {
-          const sessionDuration = 60 * 60 * 1000; // 60 minutes
-          const expiryTime = Date.now() + sessionDuration;
-          localStorage.setItem('username', response.data.user);
-          localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('sessionExpiry', expiryTime);
-          navigate("/employeedash");
-        }
-      } catch (error) {
-        // console.log(error);
-        setError("Please correct Credentials");
+      if (response.data.message === 'Login successful') {
+        const sessionDuration = 60 * 60 * 1000; // 60 minutes
+        const expiryTime = Date.now() + sessionDuration;
+        localStorage.setItem('userId', response.data.userId);
+        localStorage.setItem('username', response.data.username);
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('sessionExpiry', expiryTime);
+        navigate("/employeedash");
       }
+    } catch (error) {
+      // console.log(error);
+      setError("Please correct Credentials");
     }
   };
 
@@ -65,8 +56,10 @@ export default function Login() {
       className="col-md-5 mx-auto w-100 h-100 d-flex align-items-center justify-content-center bg1"
     >
       <Form onSubmit={handleSubmit} className="w-50 bg-white p-3 rounded-3">
-        <p className="fs-4 fw-semibold">Login to TaskFlow</p>
-
+        <span className="container d-flex justify-content-between align-items-start">
+          <p className="fs-4 fw-semibold">Login to SpaceSync</p>
+          <Link to="/adminLogin" className="text-decoration-none ">Go to Admin</Link>
+        </span>
         <Form.Group className="mb-3" controlId="formGroupEmail">
           <Form.Label className="mb-1 ">Email address</Form.Label>
           <Form.Control
@@ -96,7 +89,7 @@ export default function Login() {
         </Button>
         <p className="fw-light mt-2 text-center">
           Don't have an account?
-          <Link to="/register" className="text-decoration-none">
+          <Link to="/register" className="text-decoration-none ps-1">
             Register
           </Link>
         </p>

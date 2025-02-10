@@ -18,18 +18,22 @@ export default function Layout() {
     const handleLogout = () => {
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('sessionExpiry');
+        localStorage.removeItem('userId');
         localStorage.removeItem('username');
         navigate("/");
     };
 
     const getProfile = async () => {
         const response = await axios.get(`${apiUrl}/api/admin/user`, {
-            params: { userName: localStorage.getItem('username') }
+            params: { userId: localStorage.getItem('userId') }
         });
         console.log(response.data.user);
         setProfileToDelete({
             username: response.data.user.username,
             email: response.data.user.email,
+            designation: response.data.user.designation,
+            organization: response.data.user.organization,
+            subordinates: response.data.user.subordinates,
         })
     }
 
@@ -47,7 +51,7 @@ export default function Layout() {
             setProfileDeleteShowModal(false);
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('sessionExpiry');
-            localStorage.removeItem('username');
+            localStorage.removeItem('userId');
             navigate("/");
         } catch (error) {
             console.log(error);
@@ -59,10 +63,10 @@ export default function Layout() {
                 <Container>
                     <Navbar.Brand>
                         <Link
-                            to="/"
+                            to="/employeedash"
                             className="text-decoration-none fw-bold text-body-emphasis"
                         >
-                            WorkSpaceMapper
+                            SpaceSync
                         </Link>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -71,7 +75,7 @@ export default function Layout() {
                         className="d-flex justify-content-evenly"
                     >
                         <Nav.Item>
-                            <Link to="/" className="text-decoration-none text-body-emphasis">
+                            <Link to="/employeedash" className="text-decoration-none text-body-emphasis">
                                 <FontAwesomeIcon icon={faLocationDot} className="pe-1" />
                                 Maps
                             </Link>
@@ -82,8 +86,8 @@ export default function Layout() {
                                 Bookings
                             </Link>
                         </Nav.Item>
-                        <Button variant="danger" onClick={() => { setProfileDeleteShowModal(true); getProfile() }}>
-                            Delete Account
+                        <Button variant="primary" onClick={() => { setProfileDeleteShowModal(true); getProfile() }}>
+                            Account
                         </Button>
                         <Button variant="outline-dark" onClick={handleLogout}>
                             <FontAwesomeIcon
@@ -111,6 +115,18 @@ export default function Layout() {
                                 <tr>
                                     <td><b>Email:</b></td>
                                     <td>{profileToDelete.email}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Organization:</b></td>
+                                    <td>{profileToDelete.organization}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Designation:</b></td>
+                                    <td>{profileToDelete.designation}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Subordinates:</b></td>
+                                    <td>{profileToDelete.subordinates}</td>
                                 </tr>
                             </tbody>
 

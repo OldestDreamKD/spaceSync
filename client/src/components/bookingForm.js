@@ -8,26 +8,23 @@ import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 
 const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
-    // Retrieve username from local storage
     const username = localStorage.getItem("username");
-
     const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
-    // States for managing form inputs
-    const [date, setDate] = useState(new Date()); // Selected date for booking
-    const [startTime, setStartTime] = useState("09:00"); // Start time of booking
-    const [endTime, setEndTime] = useState("17:00"); // End time of booking
-    const [purpose, setPurpose] = useState(""); // Booking purpose
-    const [markerId, setMarkerId] = useState(""); // Marker ID
-    const [collaborators, setCollaborators] = useState([]); // List of available collaborators
-    const [selectedCollaborators, setSelectedCollaborators] = useState([]); // Selected collaborators
-    const [currentMarkerBookings, setCurrentMarkerBookings] = useState([]); // Current bookings for the marker
-    const [error, setError] = useState(null); // Error message
-    const [loading, setLoading] = useState(true); // Loading state for async calls
 
-    // Initialize form fields with the booked data if provided
+    const [date, setDate] = useState(new Date());
+    const [startTime, setStartTime] = useState("09:00");
+    const [endTime, setEndTime] = useState("17:00");
+    const [purpose, setPurpose] = useState("");
+    const [markerId, setMarkerId] = useState("");
+    const [collaborators, setCollaborators] = useState([]);
+    const [selectedCollaborators, setSelectedCollaborators] = useState([]);
+    const [currentMarkerBookings, setCurrentMarkerBookings] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         if (booked) {
-            setDate(new Date(booked.bookingDate.split("/").reverse().join("-"))); // Convert date to correct format
+            setDate(new Date(booked.bookingDate.split("/").reverse().join("-")));
             setStartTime(booked.hoursReserved.startTime);
             setEndTime(booked.hoursReserved.endTime);
             setPurpose(booked.purpose);
@@ -36,47 +33,41 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
         }
     }, [booked]);
 
-    // Set marker ID if not using an existing booking
     useEffect(() => {
         if (!booked) {
             setMarkerId(marker._id);
         }
     }, [marker]);
-
-    // Fetch collaborators and bookings data from the server
     const getCollaborators = async () => {
         try {
-            setLoading(true); // Set loading state
-
-            // Fetch data from the server
+            setLoading(true);
             const response = await axios.get(`${apiUrl}/api/booking/`);
-
-            // Extract users excluding the current user
             const users = response.data.username.filter((e) => e !== username);
             setCollaborators(users);
 
-            // Retrieve current marker bookings
             const retrievedBookings = response.data.bookingsCustom.filter((e) => e.marker._id === markerId);
-            if (booked) {
-                retrievedBookings.filter((e) => e._id !== booked._id)
-                setCurrentMarkerBookings(retrievedBookings);
-            } else {
-                setCurrentMarkerBookings(retrievedBookings);
-            }
-            // setCurrentMarkerBookings(booked ? retrievedBookings.filter((e) => e._id !== booked._id) : retrievedBookings);
+            const filteredBookings = booked
+                ? retrievedBookings.filter((e) => e._id !== booked._id)
+                : retrievedBookings;
+
+            console.log(markerId)
+            console.log(response)
+            console.log(retrievedBookings)
+            // Ensure past bookings are not removed
+            console.log(filteredBookings)
+            setCurrentMarkerBookings(filteredBookings);
         } catch (error) {
             console.error("Error fetching collaborators:", error);
         } finally {
-            setTimeout(() => setLoading(false), 200); // Add a small delay for smoother UI
+            setTimeout(() => setLoading(false), 200);
         }
     };
 
-    // Fetch data when marker or markerId changes
+
     useEffect(() => {
         getCollaborators();
     }, [marker, markerId]);
 
-    // Check for time overlap with existing bookings
     const isTimeOverlap = (existingBookings, newStart, newEnd, newBookingDate, markerId) => {
         const toMinutes = (time) => {
             const [hours, minutes] = time.split(":").map(Number);
@@ -88,13 +79,14 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
 
         return existingBookings.some((booking) => {
             const { startTime, endTime } = booking.hoursReserved;
+            const bookingMarkerId = booking.marker._id || booking.marker; // Ensure correct marker ID format
+            const formattedBookingDate = new Date(booking.bookingDate.split("/").reverse().join("-"));
+            const formattedNewBookingDate = new Date(newBookingDate.split("/").reverse().join("-"));
 
-            // Check only for bookings on the same marker and date
-            if (booking.marker === markerId && booking.bookingDate === newBookingDate) {
+            if (bookingMarkerId === markerId && formattedBookingDate.toDateString() === formattedNewBookingDate.toDateString()) {
                 const existingStartMinutes = toMinutes(startTime);
                 const existingEndMinutes = toMinutes(endTime);
 
-                // Check for any overlap
                 return (
                     (newStartMinutes < existingEndMinutes && newStartMinutes >= existingStartMinutes) ||
                     (newEndMinutes > existingStartMinutes && newEndMinutes <= existingEndMinutes) ||
@@ -105,17 +97,16 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
         });
     };
 
-    // Handle collaborator selection
+
     const handleCollaboratorSelection = (e) => {
         const value = e.target.value;
         setSelectedCollaborators((prev) =>
             e.target.checked
-                ? [...prev, value] // Add collaborator if checked
-                : prev.filter((collaborator) => collaborator !== value) // Remove collaborator if unchecked
+                ? [...prev, value]
+                : prev.filter((collaborator) => collaborator !== value)
         );
     };
 
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
         const formattedDate = date.toLocaleDateString("en-GB");
@@ -123,7 +114,6 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
         if (isTimeOverlap(currentMarkerBookings, startTime, endTime, formattedDate, markerId)) {
             setError("Time overlap detected. Please choose a different time.");
         } else {
-            // Prepare form data
             const formData = {
                 username,
                 markerId,
@@ -131,10 +121,10 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                 hoursReserved: { startTime, endTime },
                 purpose,
                 collaborators: selectedCollaborators,
-                ...(booked && { _id: booked._id }), // Include booking ID if editing
+                ...(booked && { _id: booked._id }),
             };
-            onSubmit(formData); // Call parent onSubmit handler
-            onClose(); // Close the modal
+            onSubmit(formData);
+            onClose();
         }
     };
 
@@ -145,13 +135,11 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                     <div className="loading-spinner fw-bold">Loading...</div>
                 ) : (
                     <Form onSubmit={handleSubmit}>
-                        {/* Modal Header */}
                         <div className="d-flex align-items-start justify-content-between mb-3">
                             <h5>Add Marker Descriptions</h5>
                             <CloseButton onClick={onClose} />
                         </div>
 
-                        {/* Date Picker */}
                         <Form.Group as={Row} className="mb-3" controlId="formDate">
                             <Form.Label column sm={5}><b>Date:</b></Form.Label>
                             <Col sm={7}>
@@ -166,7 +154,6 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                             <Form.Label column sm={5}><b>Working hours:</b></Form.Label>
                             <Form.Label column sm={7}> 09:00 - 17:00</Form.Label>
                         </Form.Group>
-                        {/* Time Pickers for Start and End */}
                         <Form.Group as={Row} className="mb-3 ms-1" controlId="formStartTime">
                             <Form.Label column sm={5}><b>Start Hours:</b></Form.Label>
                             <Col sm={7}>
@@ -193,7 +180,6 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                             </Col>
                         </Form.Group>
 
-                        {/* Purpose Input */}
                         <Form.Group as={Row} className="mb-3" controlId="formPurpose">
                             <Form.Label column sm={5}><b>Purpose:</b></Form.Label>
                             <Col sm={7}>
@@ -208,7 +194,6 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                             </Col>
                         </Form.Group>
 
-                        {/* Collaborators Selection */}
                         <Form.Group as={Row} className="mb-3" controlId="formCollaborators">
                             <Form.Label column sm={5}><b>Collaborators:</b></Form.Label>
                             <Col sm={7}>
@@ -225,17 +210,14 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                             </Col>
                         </Form.Group>
 
-                        {/* Error Message */}
                         {error && (
                             <div className="p-2 mb-2 text-danger bg-danger-subtle border rounded-3 text-center">{error}</div>
                         )}
 
-                        {/* Submit Button */}
                         <Button type="submit" className="w-100 btn-dark mb-2">
                             Book Resource
                         </Button>
 
-                        {/* Current Bookings Table */}
                         {currentMarkerBookings.length > 0 && (
                             <div>
                                 <div className="fw-bold mb-2">Current Bookings</div>

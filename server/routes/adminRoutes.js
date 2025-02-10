@@ -24,7 +24,7 @@ router.get('/users', async (req, res) => {
 
 router.get('/user', async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.query.userName }, 'email username');
+        const user = await User.findOne({ _id: req.query.userId });
         //console.log(user);
         res.json({ message: 'User retrieved successfully!', user });
     } catch (error) {

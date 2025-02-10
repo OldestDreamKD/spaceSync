@@ -2,7 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
 exports.register = async (req, res) => {
-  const { email, password, username } = req.body;
+  const { email, password, username, designation, subordinates, organization } = req.body;
   try {
     // Check for duplicates before saving
     const existingUser = await User.findOne({
@@ -24,11 +24,13 @@ exports.register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      role: "employee",
+      designation,
+      subordinates,
+      organization
     });
     const response = await newUser.save();
-    // console.log("User created:", response);
-    res.status(201).json({ message: "Registration successful", user: username });
+    console.log("User created:", response);
+    res.status(201).json({ message: "Registration successful", userId: response._id });
   } catch (error) {
     console.error("Error during registration:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -47,8 +49,8 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "User does not exist" });
 
     } else if (await bcrypt.compare(password, user.password)) {
-      // console.log(user);
-      res.status(200).json({ message: "Login successful", user: user.username });
+      console.log(user);
+      res.status(200).json({ message: "Login successful", userId: user._id, username: user.username });
     } else {
       return res.status(400).json({ message: "Invalid credentials" });
     }

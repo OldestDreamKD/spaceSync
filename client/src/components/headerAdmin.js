@@ -18,6 +18,8 @@ export default function Layout() {
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('sessionExpiry');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
     navigate("/");
   };
 
@@ -30,7 +32,7 @@ export default function Layout() {
               to="/admindash"
               className="text-decoration-none fw-bold text-body-emphasis"
             >
-              WorkSpaceMapper
+              SpaceSync
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -39,7 +41,7 @@ export default function Layout() {
             className="d-flex justify-content-evenly"
           >
             <Nav.Item>
-              <Link to="/" className="text-decoration-none text-body-emphasis">
+              <Link to="/admindash" className="text-decoration-none text-body-emphasis">
                 <FontAwesomeIcon icon={faLocationDot} className="pe-1" />
                 Maps
               </Link>

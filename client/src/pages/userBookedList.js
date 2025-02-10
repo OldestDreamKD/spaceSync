@@ -76,10 +76,10 @@ const FloorMapManagement = () => {
             <span>
                 <Layout />
             </span>
-            <h2 className="fw-bold my-4 container">Current Bookings</h2>
+            <h2 className="fw-bold my-4 container">Bookings:</h2>
             {
                 bookedList.length > 0 && (
-                    <div className='container mt-3'>
+                    <div className='container mt-2'>
                         <Table responsive className='fs-5'>
                             <thead>
                                 <tr>
@@ -100,7 +100,7 @@ const FloorMapManagement = () => {
                                         <td>{index + 1}</td>
                                         <td>{booking.purpose}</td>
                                         <td>{booking.floorMap}</td>
-                                        <td>{booking.marker.description}</td>
+                                        <td>{booking.marker.details[0].description}</td>
                                         <td>
                                             <ul>
                                                 {booking.collaborators.length !== 0 && booking.collaborators.map((people, index) => {

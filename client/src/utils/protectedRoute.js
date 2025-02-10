@@ -8,6 +8,8 @@ const ProtectedRoute = ({ children }) => {
     if (!isLoggedIn || !sessionExpiry || Date.now() > parseInt(sessionExpiry, 10)) {
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('sessionExpiry');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('username');
         return <Navigate to="/" replace />; // Redirect to login
     }
 

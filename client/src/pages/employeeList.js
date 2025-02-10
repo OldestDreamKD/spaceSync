@@ -117,7 +117,7 @@ const EmployeeList = () => {
                                         <td>{index + 1}</td>
                                         <td>{booking.purpose}</td>
                                         <td>{booking.floorMap}</td>
-                                        <td>{booking.marker.description}</td>
+                                        <td>{booking.marker.details[0].description}</td>
                                         <td>
                                             <ul>
                                                 {booking.collaborators.length !== 0 &&

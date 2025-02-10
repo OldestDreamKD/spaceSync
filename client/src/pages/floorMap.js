@@ -125,6 +125,8 @@ const FloorMapViewer = () => {
             const response = await axios.get(`${apiUrl}/api/marker/markerDetails`, {
                 params: { markerId: markerId }
             });
+            console.log(markerId);
+            console.log(response);
             setMarkerToBook(response.data);
         } catch (error) {
             console.error('Error fetching markers:', error);

@@ -15,8 +15,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  role: {
+  designation: {
     type: String,
+    required: true,
+  },
+  organization: {
+    type: String,
+    required: true,
+  },
+  subordinates: {
+    type: Number,
     required: true,
   },
 });

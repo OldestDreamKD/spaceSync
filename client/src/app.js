@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import FloorMapManagement from './pages/floorMapManagement';
 import Register from './pages/register';
 import Login from './pages/login';
+import AdminLogin from './pages/adminLogin';
 import ProtectedRoute from './utils/protectedRoute';
 import FloorMapEditor from './pages/floorMapEditor';
 import FloorMap from './pages/floorMap';
@@ -18,6 +19,7 @@ const App = () => {
                 {/* Public routes */}
                 <Route path="/" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/adminLogin" element={<AdminLogin />} />
 
                 {/* Protected routes */}
                 <Route
