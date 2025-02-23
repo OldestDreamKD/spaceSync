@@ -8,6 +8,7 @@ const FloorMapRoutes = require('./routes/floorMapRoutes');
 const MapMarkerRoutes = require('./routes/mapMarkerRoutes');
 const BookingDetailsRoutes = require('./routes/bookingDetailsRoutes');
 const AdminRoutes = require('./routes/adminRoutes');
+const waiting = require('./routes/waitingRoute');
 const path = require('path');
 
 
@@ -40,6 +41,7 @@ app.use('/api/floormaps', FloorMapRoutes);
 app.use('/api/booking', BookingDetailsRoutes);
 app.use('/api/admin', AdminRoutes);
 app.use('/api/marker', MapMarkerRoutes); // Connect the new routes
+app.use('/api/waiting', waiting);
 
 const PORT = process.env.PORT || 4000;
 

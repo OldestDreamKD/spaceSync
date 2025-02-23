@@ -29,7 +29,7 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
             setEndTime(booked.hoursReserved.endTime);
             setPurpose(booked.purpose);
             setSelectedCollaborators(booked.collaborators || []);
-            setMarkerId(booked.marker);
+            setMarkerId(booked.marker._id);
         }
     }, [booked]);
 
@@ -50,11 +50,9 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                 ? retrievedBookings.filter((e) => e._id !== booked._id)
                 : retrievedBookings;
 
-            console.log(markerId)
-            console.log(response)
-            console.log(retrievedBookings)
-            // Ensure past bookings are not removed
-            console.log(filteredBookings)
+            console.log(booked);
+            console.log(markerId);
+            console.log(retrievedBookings);
             setCurrentMarkerBookings(filteredBookings);
         } catch (error) {
             console.error("Error fetching collaborators:", error);

@@ -70,17 +70,52 @@ const FloorMapManagement = () => {
         }
     };
 
+    const handlePrint = () => {
+        const tableHTML = document.getElementById("bookingTable").outerHTML;
+        const styles = `
+            <style>
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                h2 { text-align: center; }
+                table { width: 100%; border-collapse: collapse; font-size: 16px; }
+                th, td { border: 1px solid black; padding: 10px; text-align: left; }
+                th { background-color: #f2f2f2; }
+                ul { padding-left: 20px; }
+                @media print {
+                    body { visibility: hidden; }
+                    #printSection { visibility: visible; position: absolute; left: 0; top: 0; width: 100%; }
+                }
+            </style>
+        `;
+
+        const printWindow = window.open("", "_blank");
+        if (!printWindow) {
+            alert("Popup blocked! Please allow popups for this site.");
+            return;
+        }
+        printWindow.document.write(`<html><head><title>Print Bookings</title>${styles}</head><body>`);
+        printWindow.document.write(`<h2>Booking List</h2>`);
+        printWindow.document.write(`<div id="printSection">${tableHTML}</div>`);
+        printWindow.document.write(`</body></html>`);
+        printWindow.document.close();
+        printWindow.onafterprint = () => printWindow.close();
+        printWindow.onbeforeunload = () => printWindow.close();
+        printWindow.print();
+    };
 
     return (
         <div>
             <span>
                 <Layout />
             </span>
-            <h2 className="fw-bold my-4 container">Bookings:</h2>
+            <span className='d-flex justify-content-between align-items-center container'>
+                <h2 className="fw-bold my-4 ">Bookings:</h2>
+                <Button variant="primary" onClick={handlePrint}>Print</Button>
+            </span>
+
             {
                 bookedList.length > 0 && (
                     <div className='container mt-2'>
-                        <Table responsive className='fs-5'>
+                        <Table responsive className='fs-5' id="bookingTable">
                             <thead>
                                 <tr>
                                     <th>#</th>

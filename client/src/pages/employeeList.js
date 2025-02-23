@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from '../components/headerAdmin';
 import axios from "axios";
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Modal } from 'react-bootstrap';
 
 const EmployeeList = () => {
     const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:2000";
@@ -9,6 +9,8 @@ const EmployeeList = () => {
     const [bookedList, setBookedList] = useState([]);
     const [show, setShow] = useState(false);
     const [selectedUser, setSelectedUser] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
 
     const getEmployeesList = async () => {
         try {
@@ -17,7 +19,7 @@ const EmployeeList = () => {
                 setEmployees(response.data.usersWithBookings);
             }
         } catch (error) {
-            console.error("Error fetching collaborators:", error);
+            console.error("Error fetching employees:", error);
         }
     };
 
@@ -35,26 +37,40 @@ const EmployeeList = () => {
         try {
             const response = await axios.get(`${apiUrl}/api/booking/explicit`);
             const bookedResources = response.data.bookingsCustom;
-            const userBookedResources = bookedResources.filter((list) => {
-                return list.username === selectedUser;
-            });
+            const userBookedResources = bookedResources.filter((list) => list.username === selectedUser);
             setBookedList(userBookedResources);
             setShow(true);
         } catch (error) {
-            console.error("Error fetching collaborators:", error);
+            console.error("Error fetching bookings:", error);
         }
     };
 
     const handleView = (e) => {
-        const employeeName = e.target.value;
-        setSelectedUser(employeeName);
+        setSelectedUser(e.target.value);
+    };
+
+    const handleRemoveUser = (username) => {
+        setUserToDelete(username);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDeleteUser = async () => {
+        try {
+            await axios.delete(`${apiUrl}/api/admin/userDelete`, {
+                params: { userName: userToDelete }
+            });
+            setEmployees(employees.filter(emp => emp.user.username !== userToDelete));
+            setShowDeleteModal(false);
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
     };
 
     return (
         <span>
             <Layout />
             <h2 className="fw-bold my-4 container">Users:</h2>
-            {employees.length > 0 && (
+            {employees.length > 0 ? (
                 <div className="container mt-3">
                     <Table responsive className="fs-5">
                         <thead>
@@ -64,6 +80,7 @@ const EmployeeList = () => {
                                 <th>Email</th>
                                 <th>Booking</th>
                                 <th>View Bookings</th>
+                                <th>Remove User</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -74,73 +91,39 @@ const EmployeeList = () => {
                                     <td>{employee.user.email}</td>
                                     <td>{employee.bookingCount}</td>
                                     <td>
-                                        <button
-                                            type="button"
-                                            onClick={handleView}
-                                            className="btn btn-dark me-5 btn-sm fs-6"
-                                            value={employee.user.username}
-                                        >
+                                        <Button variant="dark" size="sm" value={employee.user.username} onClick={handleView}>
                                             View
-                                        </button>
+                                        </Button>
+                                    </td>
+                                    <td>
+                                        <Button variant="danger" size="sm" onClick={() => handleRemoveUser(employee.user.username)}>
+                                            Remove
+                                        </Button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </Table>
                 </div>
-            )}
-            {employees.length === 0 && (
+            ) : (
                 <div className="container mt-3">
                     <h4 className="my-4">No Users Found</h4>
                 </div>
             )}
-            {show && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h3 className="fw-bold my-2 container">{selectedUser}'s Bookings: </h3>
-                        <Table responsive className="fs-5">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Purpose</th>
-                                    <th>Map</th>
-                                    <th>Marker Name</th>
-                                    <th>Collaborators</th>
-                                    <th>Date</th>
-                                    <th>From</th>
-                                    <th>End</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {bookedList.map((booking, index) => (
-                                    <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{booking.purpose}</td>
-                                        <td>{booking.floorMap}</td>
-                                        <td>{booking.marker.details[0].description}</td>
-                                        <td>
-                                            <ul>
-                                                {booking.collaborators.length !== 0 &&
-                                                    booking.collaborators.map((people, index) => (
-                                                        <li key={index}>{people}</li>
-                                                    ))}
-                                                {booking.collaborators.length === 0 && (
-                                                    <li key="0">No Collaborators</li>
-                                                )}
-                                            </ul>
-                                        </td>
-                                        <td>{booking.bookingDate}</td>
-                                        <td>{booking.hoursReserved.startTime}</td>
-                                        <td>{booking.hoursReserved.endTime}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                        <Button variant="dark" onClick={() => setShow(false)}>
-                            Close
-                        </Button>
-                    </div>
-                </div>
+
+            {showDeleteModal && (
+                <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirm Deletion</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Are you sure you want to remove the user: <strong>{userToDelete}</strong>?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+                        <Button variant="danger" onClick={confirmDeleteUser}>Delete</Button>
+                    </Modal.Footer>
+                </Modal>
             )}
         </span>
     );
