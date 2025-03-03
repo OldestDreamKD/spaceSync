@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 require('dotenv').config();
 const nodemailer = require("nodemailer");
+const waitingUser = require('../models/waitingUser');
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -60,6 +61,9 @@ exports.register = async (req, res) => {
     const response = await newUser.save();
     console.log("User created:", response);
     sendEmail(email, username);
+
+    const deleteWaiting = await waitingUser.deleteOne({ username: username });
+    console.log("Deleted from waiting:", deleteWaiting);
 
     res.status(201).json({ message: "Registration successful", userId: response._id });
   } catch (error) {

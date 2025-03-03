@@ -161,6 +161,7 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                                     disableClock
                                     minTime="09:00"
                                     maxTime="17:00"
+                                    format="HH:mm"
                                 />
                             </Col>
                         </Form.Group>
@@ -174,6 +175,7 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                                     disableClock
                                     minTime="09:00"
                                     maxTime="17:00"
+                                    format="HH:mm"
                                 />
                             </Col>
                         </Form.Group>

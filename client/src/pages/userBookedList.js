@@ -71,7 +71,6 @@ const FloorMapManagement = () => {
     };
 
     const handlePrint = () => {
-        const tableHTML = document.getElementById("bookingTable").outerHTML;
         const styles = `
             <style>
                 body { font-family: Arial, sans-serif; padding: 20px; }
@@ -80,6 +79,7 @@ const FloorMapManagement = () => {
                 th, td { border: 1px solid black; padding: 10px; text-align: left; }
                 th { background-color: #f2f2f2; }
                 ul { padding-left: 20px; }
+                .no-print { display: none !important; }
                 @media print {
                     body { visibility: hidden; }
                     #printSection { visibility: visible; position: absolute; left: 0; top: 0; width: 100%; }
@@ -94,7 +94,7 @@ const FloorMapManagement = () => {
         }
         printWindow.document.write(`<html><head><title>Print Bookings</title>${styles}</head><body>`);
         printWindow.document.write(`<h2>Booking List</h2>`);
-        printWindow.document.write(`<div id="printSection">${tableHTML}</div>`);
+        printWindow.document.write(`<div id="printSection">${document.getElementById("bookingTable").outerHTML}</div>`);
         printWindow.document.write(`</body></html>`);
         printWindow.document.close();
         printWindow.onafterprint = () => printWindow.close();
@@ -126,7 +126,7 @@ const FloorMapManagement = () => {
                                     <th>Date</th>
                                     <th>From</th>
                                     <th>End</th>
-                                    <th>Action</th>
+                                    <th className="no-print">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -149,7 +149,7 @@ const FloorMapManagement = () => {
                                         <td>{booking.bookingDate}</td>
                                         <td>{booking.hoursReserved.startTime}</td>
                                         <td>{booking.hoursReserved.endTime}</td>
-                                        <td>
+                                        <td className="no-print">
                                             <div className="d-flex ">
                                                 <button type="button" onClick={() => { handleEdit(booking) }} className="btn btn-dark me-5 btn-sm fs-6" >Edit</button>
                                                 <button type="button" onClick={() => { setShowModal(true); setBookingToDelete(booking._id) }} className="btn btn-danger btn-sm fs-6">Delete</button>
