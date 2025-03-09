@@ -5,26 +5,318 @@
   font-family: "Signika", serif;
   font-optical-sizing: auto;
   font-weight: 300;
-  font-style: normal;
-  font-variation-settings:
-    "GRAD" 0;
+  font-variation-settings: "GRAD" 0;
 }
 
 html,
 body {
   height: 100%;
-  background-color: rgb(228, 228, 228);
+  color: #F4F1DE;
+  background-color: #1B1B1B;
 }
 
 #root {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
-.bg1 {
-  background: linear-gradient(-45deg, #f0f0f0, #e0e0e0, #203a43, #2c5364);
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(45deg, #264653, #1B1B1B, #14213D, #E9C46A);
   background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+  animation: subtleFlow 20s ease infinite;
+  opacity: 0.9;
+}
+
+@keyframes subtleFlow {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.button-interactive {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(233, 196, 106, 0.3);
+}
+
+.button-interactive:active {
+  transform: translateY(1px);
+}
+
+.button-interactive::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.button-interactive:active::after {
+  transform: translate(-50%, -50%) scale(30);
+  opacity: 1;
+}
+
+
+#employeeTable {
+  background-color: #E9C46A;
+  color: #14213D;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#employeeTable th,
+#employeeTable td {
+  background-color: #14213D !important;
+  border: 2px solid black !important;
+  transition: background-color 0.3s ease;
+}
+
+#employeeTable th {
+  color: #FAE1DD !important;
+}
+
+#employeeTable td {
+  color: #E9C46A !important;
+}
+
+/* ===== Navbar ===== */
+.navbar-custom {
+  background-color: #264653;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-custom a,
+.navbar-custom button {
+  color: #F4F1DE;
+  transition: opacity 0.3s ease;
+}
+
+.navbar-custom a:hover,
+.navbar-custom button:hover {
+  opacity: 0.9;
+}
+
+/* ===== Form Elements ===== */
+.form-control {
+  background-color: inherit !important;
+  color: inherit !important;
+  border: 1px solid #5C6B73 !important;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #E9C46A !important;
+  box-shadow: 0 0 0 0.2rem rgba(233, 196, 106, 0.25);
+}
+
+#root>div>form>span>p {
+  margin: 0;
+}
+
+#root>div>form>span {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3%;
+}
+
+
+.navbar-custom {
+  background-color: #264653;
+}
+
+.navbar-custom a,
+.navbar-custom button {
+  color: #F4F1DE;
+}
+
+#employeeTable {
+  background-color: #E9C46A;
+  color: #14213D;
+  border-radius: 10px;
+}
+
+#responsive-navbar-nav>button.btn.btn-primary,
+#responsive-navbar-nav>div:nth-child(4)>button {
+  background-color: #EFE9E0 !important;
+  color: #1A1A1A !important;
+  border: none;
+}
+
+#employeeTable td,
+#root>span>div.container.d-flex.justify-content-between.align-items-center>div>select,
+#bookingTable td,
+body>div.fade.modal.show>div>div>div.modal-body>table>tbody>tr>td,
+#root>div>div.container>div.modal-overlay>div>form>div:nth-child(9)>div.table-responsive>table>tbody>tr>td {
+  background-color: #14213D !important;
+  color: #E9C46A !important;
+  border: 2px solid black !important;
+}
+
+#employeeTable th,
+body>div.fade.modal.show>div>div>div.modal-body>table>tbody>tr>td:nth-child(1),
+#bookingTable th,
+#root>div>div.container>div.modal-overlay>div>form>div:nth-child(9)>div.table-responsive>table>thead>tr>th {
+  background-color: #14213D !important;
+  color: #FAE1DD !important;
+  border: 2px solid black !important;
+}
+
+.label {
+  color: #E9C46A !important;
+  background-color: #14213D !important;
+  border: 1px solid #14213D !important;
+}
+
+#root>span>div.container.d-flex.justify-content-between.align-items-center>button {
+  background-color: #5C6B73;
+  color: #E9C46A;
+  border: 1px solid #5C6B73;
+}
+
+#employeeTable>tbody>tr>td:nth-child(5)>button,
+#bookingTable>tbody>tr>td.no-print>div>button.btn.btn-dark.me-5.btn-sm.fs-6,
+#root>div>div.container>div.leaflet-container.leaflet-touch.leaflet-retina.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom>div.leaflet-pane.leaflet-map-pane>div.leaflet-pane.leaflet-popup-pane>div>div.leaflet-popup-content-wrapper>div>div.d-flex.justify-content-between>button:nth-child(1),
+#root>div>form {
+  background-color: black !important;
+  color: #F4F1DE !important;
+  border: none !important;
+}
+
+#root>div>div.container>div.leaflet-container.leaflet-touch.leaflet-retina.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom>div.leaflet-pane.leaflet-map-pane>div.leaflet-pane.leaflet-popup-pane>div>div.leaflet-popup-content-wrapper>div>div.d-flex.justify-content-between>button:nth-child(2) {
+  background-color: red !important;
+  color: #F4F1DE !important;
+  border: none !important;
+}
+
+#responsive-navbar-nav>button {
+  background-color: #E76F51 !important;
+  color: #F4F1DE !important;
+  border: none !important;
+}
+
+
+.floor-map-card {
+  background: #5C6B73 !important;
+  color: #E9C46A !important;
+
+}
+
+.leaflet-container {
+  background: #5C6B73 !important;
+  color: #E9C46A !important;
+}
+
+body>div.fade.modal.show>div>div>div.modal-footer>button.btn.btn-secondary,
+body>div.fade.modal.show>div>div>div.modal-footer>button.btn.btn-dark,
+#root>div>div.container>div.d-flex.justify-content-between>button.btn.btn-primary,
+#root>div>div.container>div.modal-overlay>div>form>button.mb-3.btn.btn-dark {
+  background-color: #F4A261 !important;
+  color: black !important;
+  border: none !important;
+}
+
+body>div.fade.modal.show>div>div>div.modal-footer>button.btn.btn-primar,
+#root>div>span.d-flex.justify-content-between.align-items-center.container>button,
+body>div.fade.modal.show>div>div>div.modal-footer>button.btn.btn-primary {
+  background-color: #5C6B73 !important;
+  color: #E9C46A !important;
+  border: none !important;
+}
+
+#root>div>div.modal-overlay>div>form>div:nth-child(2)>div>div>div>input[type=text],
+#formPurpose,
+#root>div>div.container>div.modal-overlay>div>form>div:nth-child(2)>div>div>div>input[type=text],
+.form-control {
+  background-color: inherit !important;
+  color: inherit !important;
+  border: 1px solid #5C6B73 !important;
+}
+
+
+.form-floating>.form-control-plaintext~label::after,
+.form-floating>.form-control:focus~label::after,
+.form-floating>.form-control:not(:placeholder-shown)~label::after,
+.form-floating>.form-select~label::after {
+  background-color: unset;
+}
+
+#root>div>div.container>div.modal-overlay>div>form>div>div>div>label {
+  color: #E9C46A !important;
+}
+
+
+#root>div>div.modal-overlay>div>form>div.d-flex.align-items-start.justify-content-between.mb-3>button,
+#root>div>div.container>div.modal-overlay>div>form>div.d-flex.align-items-start.justify-content-between.mb-3>button {
+  background-color: #FAEEE0 !important;
+}
+
+#root>div>div.modal-overlay>div>form>div.d-flex.align-items-start.justify-content-between.mb-3>h5,
+#root>div>div.container>div.modal-overlay>div>form>div.d-flex.align-items-start.justify-content-between.mb-3>h5,
+#root>div>form>span>p,
+#root>div>form>p.fs-4.fw-semibold {
+  color: #E76F51 !important;
+}
+
+#formCollaborators {
+  background-color: inherit !important;
+  color: inherit !important;
+  border: 1px solid #5C6B73 !important;
+}
+
+#root>div>div.modal-overlay>div>form>button,
+#root>div>div.container>div.modal-overlay>div>form>button,
+#root>div>div.container>div>div.leaflet-pane.leaflet-map-pane>div.leaflet-pane.leaflet-popup-pane>div>div.leaflet-popup-content-wrapper>div>div>button,
+body>div.fade.modal.show>div>div>div.modal-body>div>div>button.btn.btn-dark,
+#root>div>form>button {
+  background-color: #E9C46A !important;
+  color: #5C6B73 !important;
+  border: none !important;
+}
+
+#root>div>div.modal-overlay>div>form>div.d-flex.align-items-start.justify-content-between.mb-3,
+#root>div>div.container>div.modal-overlay>div>form>div.d-flex.align-items-start.justify-content-between.mb-3,
+#root>div>form>p.fs-4.fw-semibold {
+  border-bottom: 1px solid #F4F1DE !important;
+}
+
+#root>div>form>span {
+  border-bottom: 1px solid #F4F1DE !important;
+}
+
+
+#root>div>div.container>div>div.leaflet-pane.leaflet-map-pane>div.leaflet-pane.leaflet-popup-pane>div>div.leaflet-popup-content-wrapper {
+  background-color: #15847E !important;
+  color: #FFB199 !important;
+}
+
+#root>div>div.container>div>div.leaflet-pane.leaflet-map-pane>div.leaflet-pane.leaflet-popup-pane>div>div.leaflet-popup-content-wrapper>div>div>strong {
+  color: #FAEEE0
 }
 
 @keyframes gradient {
@@ -41,19 +333,42 @@ body {
   }
 }
 
+.bg1 {
+  background: linear-gradient(45deg,
+      #264653,
+      #1B1B1B,
+      #14213D,
+      #E9C46A);
+  background-size: 400% 400%;
+  animation: subtleFlow 10s ease infinite;
+  opacity: 0.9;
+}
+
+
+
+@keyframes subtleFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
 .modal-overlay {
   position: fixed;
-  /* Makes it stay fixed on the viewport */
   top: 0;
   left: 0;
   width: 100vw;
-  /* Full width of the viewport */
   height: 100vh;
-  /* Full height of the viewport */
   background-color: rgba(0, 0, 0, 0.75);
-  /* Semi-transparent dark background */
   display: flex;
-  /* Flexbox for centering the modal */
   justify-content: center;
   z-index: 999;
   align-content: center;
@@ -62,16 +377,28 @@ body {
 
 .modal-content {
   position: relative;
-  background-color: white;
-  padding: 20px;
+  background-color: black;
+  padding: 50px;
   border-radius: 8px;
   max-width: 80%;
-  width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-  /* Optional shadow */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  animation: modalEntrance 0.4s ease;
 }
+
+@keyframes modalEntrance {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 
 @media print {
   body * {
@@ -82,4 +409,8 @@ body {
     visibility: visible;
   }
 
+}
+
+#root>div>div>span>svg {
+  cursor: pointer;
 }

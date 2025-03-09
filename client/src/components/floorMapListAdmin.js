@@ -44,7 +44,7 @@ const FloorMapListAdmin = ({ refresh }) => {
                             <Link
                                 to={`/mapedit?id=${map.url}`}
                                 className="text-decoration-none">
-                                <Card className="h-100 shadow-sm">
+                                <Card className="h-100 shadow-sm floor-map-card">
                                     <Card.Body className="text-center">
                                         <Card.Title className="mb-0">{map.name}</Card.Title>
                                     </Card.Body>

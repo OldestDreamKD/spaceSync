@@ -59,12 +59,12 @@ export default function Layout() {
     }
     return (
         <div>
-            <Navbar collapseOnSelect expand="lg" className="bg-white">
+            <Navbar collapseOnSelect expand="lg" className="navbar-custom">
                 <Container>
                     <Navbar.Brand>
                         <Link
                             to="/employeedash"
-                            className="text-decoration-none fw-bold text-body-emphasis"
+                            className="text-decoration-none fw-bold"
                         >
                             SpaceSync
                         </Link>
@@ -75,18 +75,18 @@ export default function Layout() {
                         className="d-flex justify-content-evenly"
                     >
                         <Nav.Item>
-                            <Link to="/employeedash" className="text-decoration-none text-body-emphasis">
+                            <Link to="/employeedash" className="text-decoration-none">
                                 <FontAwesomeIcon icon={faLocationDot} className="pe-1" />
                                 Maps
                             </Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Link to="/list" className="text-decoration-none text-body-emphasis">
+                            <Link to="/list" className="text-decoration-none">
                                 <FontAwesomeIcon icon={faList} className="pe-1" />
                                 Bookings
                             </Link>
                         </Nav.Item>
-                        <Button variant="primary" onClick={() => { setProfileDeleteShowModal(true); getProfile() }}>
+                        <Button variant="primary" onClick={() => { setProfileDeleteShowModal(true); getProfile() }} style={{ backgroundColor: "#FFB199" }}>
                             Account
                         </Button>
                         <Button variant="outline-dark" onClick={handleLogout}>
@@ -100,49 +100,51 @@ export default function Layout() {
                 </Container>
             </Navbar>
             <Outlet />
-            {showProfileDeleteModal && (
-                <Modal show={showProfileDeleteModal} onHide={() => setProfileDeleteShowModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Confirm Deletion</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Are you sure you want to delete your profile:<br />
-                        <table className="table table-sm table-borderless mt-2">
-                            <tbody>
-                                <tr>
-                                    <td><b>Username:</b></td>
-                                    <td>{profileToDelete.username}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Email:</b></td>
-                                    <td>{profileToDelete.email}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Organization:</b></td>
-                                    <td>{profileToDelete.organization}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Designation:</b></td>
-                                    <td>{profileToDelete.designation}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Subordinates:</b></td>
-                                    <td>{profileToDelete.subordinates}</td>
-                                </tr>
-                            </tbody>
+            {
+                showProfileDeleteModal && (
+                    <Modal show={showProfileDeleteModal} onHide={() => setProfileDeleteShowModal(false)}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Confirm Deletion</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Are you sure you want to delete your profile:<br />
+                            <table className="table table-sm table-borderless mt-2">
+                                <tbody>
+                                    <tr>
+                                        <td><b>Username:</b></td>
+                                        <td>{profileToDelete.username}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Email:</b></td>
+                                        <td>{profileToDelete.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Organization:</b></td>
+                                        <td>{profileToDelete.organization}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Designation:</b></td>
+                                        <td>{profileToDelete.designation}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Subordinates:</b></td>
+                                        <td>{profileToDelete.subordinates}</td>
+                                    </tr>
+                                </tbody>
 
-                        </table>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="dark" onClick={() => { setProfileDeleteShowModal(false); setProfileToDelete(null) }}>
-                            Cancel
-                        </Button>
-                        <Button variant="danger" onClick={() => handleDelete()}>
-                            Delete
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            )}
-        </div>
+                            </table>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="dark" onClick={() => { setProfileDeleteShowModal(false); setProfileToDelete(null) }}>
+                                Cancel
+                            </Button>
+                            <Button variant="danger" onClick={() => handleDelete()}>
+                                Delete
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                )
+            }
+        </div >
     );
 }
 

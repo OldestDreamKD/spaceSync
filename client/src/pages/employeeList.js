@@ -23,6 +23,11 @@ const EmployeeList = () => {
         }
     };
 
+    const tableStyle = {
+        backgroundColor: "#E9C46A",
+        color: "#14213D",
+    };
+
     useEffect(() => {
         getEmployeesList();
     }, []);
@@ -46,7 +51,9 @@ const EmployeeList = () => {
     };
 
     const handlePrint = () => {
-        const tableHTML = document.getElementById("bookingTable").outerHTML;
+        const tableElement = document.getElementById("bookingTable");
+        const tableHTML = tableElement ? tableElement.outerHTML : "<p style='text-align: center; font-size: 18px;'>No bookings available</p>";
+
         const styles = `
             <style>
                 body { font-family: Arial, sans-serif; padding: 20px; }
@@ -67,6 +74,7 @@ const EmployeeList = () => {
             alert("Popup blocked! Please allow popups for this site.");
             return;
         }
+
         printWindow.document.write(`
             <html>
                 <head>
@@ -79,10 +87,12 @@ const EmployeeList = () => {
                 </body>
             </html>
         `);
+
         printWindow.document.close();
         printWindow.onafterprint = () => printWindow.close();
         printWindow.print();
     };
+
 
     const handleView = async (e) => {
         setSelectedUser(e.target.value);
@@ -114,9 +124,9 @@ const EmployeeList = () => {
             <h2 className="fw-bold my-4 container">Users:</h2>
             {employees.length > 0 ? (
                 <div className="container mt-3">
-                    <Table responsive className="fs-5">
-                        <thead>
-                            <tr>
+                    <Table responsive className="fs-5" id="employeeTable" >
+                        <thead >
+                            <tr >
                                 <th>#</th>
                                 <th>User</th>
                                 <th>Email</th>
@@ -140,7 +150,7 @@ const EmployeeList = () => {
                                         </Button>
                                     </td>
                                     <td>
-                                        <Button variant="danger" size="sm"
+                                        <Button variant="danger" size="sm" id="dangerButton"
                                             onClick={() => handleRemoveUser(employee.user.username)}>
                                             Remove
                                         </Button>

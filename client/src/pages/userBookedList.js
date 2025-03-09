@@ -71,6 +71,9 @@ const FloorMapManagement = () => {
     };
 
     const handlePrint = () => {
+        const tableElement = document.getElementById("bookingTable");
+        const tableHTML = tableElement ? tableElement.outerHTML : "<p style='text-align: center; font-size: 18px;'>No bookings available</p>";
+
         const styles = `
             <style>
                 body { font-family: Arial, sans-serif; padding: 20px; }
@@ -92,15 +95,26 @@ const FloorMapManagement = () => {
             alert("Popup blocked! Please allow popups for this site.");
             return;
         }
-        printWindow.document.write(`<html><head><title>Print Bookings</title>${styles}</head><body>`);
-        printWindow.document.write(`<h2>Booking List</h2>`);
-        printWindow.document.write(`<div id="printSection">${document.getElementById("bookingTable").outerHTML}</div>`);
-        printWindow.document.write(`</body></html>`);
+
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Print Bookings</title>
+                    ${styles}
+                </head>
+                <body>
+                    <h2>Booking List</h2>
+                    <div id="printSection">${tableHTML}</div>
+                </body>
+            </html>
+        `);
+
         printWindow.document.close();
         printWindow.onafterprint = () => printWindow.close();
         printWindow.onbeforeunload = () => printWindow.close();
         printWindow.print();
     };
+
 
     return (
         <div>

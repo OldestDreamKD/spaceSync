@@ -76,29 +76,29 @@ export default function Layout() {
 
   return (
     <div>
-      <Navbar collapseOnSelect expand="lg" className="bg-white">
+      <Navbar collapseOnSelect expand="lg" className="navbar-custom">
         <Container>
           <Navbar.Brand>
-            <Link to="/admindash" className="text-decoration-none fw-bold text-body-emphasis">
+            <Link to="/admindash" className="text-decoration-none fw-bold">
               SpaceSync
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav" className="d-flex justify-content-evenly">
             <Nav.Item>
-              <Link to="/admindash" className="text-decoration-none text-body-emphasis">
+              <Link to="/admindash" className="text-decoration-none">
                 <FontAwesomeIcon icon={faLocationDot} className="pe-1" />
                 Maps
               </Link>
             </Nav.Item>
             <Nav.Item>
-              <Link to="/profile" className="text-decoration-none text-body-emphasis">
+              <Link to="/profile" className="text-decoration-none">
                 <FontAwesomeIcon icon={faUser} className="pe-1" />
                 Profile
               </Link>
             </Nav.Item>
             <Nav.Item>
-              <Link to="/listall" className="text-decoration-none text-body-emphasis">
+              <Link to="/listall" className="text-decoration-none">
                 <FontAwesomeIcon icon={faList} className="pe-1" />
                 Bookings
               </Link>
@@ -110,13 +110,13 @@ export default function Layout() {
                   setProfileDeleteShowModal(true);
                   getRequests();
                 }}
-                className="text-decoration-none text-body-emphasis"
+                className="text-decoration-none"
               >
                 <FontAwesomeIcon icon={faEnvelope} className="pe-1" />
                 Requests
               </Button>
             </Nav.Item>
-            <Button variant="outline-dark" onClick={handleLogout}>
+            <Button variant="outline-dark" onClick={handleLogout} >
               <FontAwesomeIcon icon={faArrowRightFromBracket} className="pe-1" />
               Logout
             </Button>

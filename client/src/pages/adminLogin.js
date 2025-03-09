@@ -46,8 +46,8 @@ export default function Login() {
             gap={2}
             className="col-md-5 mx-auto w-100 h-100 d-flex align-items-center justify-content-center bg1"
         >
-            <Form onSubmit={handleSubmit} className="w-50 bg-white p-3 rounded-3">
-                <span className="container d-flex justify-content-between align-items-start">
+            <Form onSubmit={handleSubmit} className="w-50 bg-white p-4 rounded-3">
+                <span className="container">
                     <p className="fs-4 fw-semibold">Admin Login to SpaceSync</p>
                     <Link to="/" className="text-decoration-none ">Go to User</Link>
                 </span>

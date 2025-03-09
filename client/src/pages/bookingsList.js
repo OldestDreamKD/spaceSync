@@ -52,7 +52,8 @@ const BookingList = () => {
 
     // Print Function
     const handlePrint = () => {
-        const tableHTML = document.getElementById("bookingTable").outerHTML;
+        const tableElement = document.getElementById("bookingTable");
+
         const styles = `
             <style>
                 body { font-family: Arial, sans-serif; padding: 20px; }
@@ -73,15 +74,25 @@ const BookingList = () => {
             alert("Popup blocked! Please allow popups for this site.");
             return;
         }
+
         printWindow.document.write(`<html><head><title>Print Bookings</title>${styles}</head><body>`);
         printWindow.document.write(`<h2>Booking List</h2>`);
-        printWindow.document.write(`<div id="printSection">${tableHTML}</div>`);
-        printWindow.document.write(`</body></html>`);
+        printWindow.document.write(`<div id="printSection">`);
+
+        if (tableElement) {
+            printWindow.document.write(tableElement.outerHTML);
+        } else {
+            printWindow.document.write("<p style='text-align: center; font-size: 18px;'>No bookings available</p>");
+        }
+
+        printWindow.document.write(`</div></body></html>`);
         printWindow.document.close();
         printWindow.onafterprint = () => printWindow.close();
         printWindow.onbeforeunload = () => printWindow.close();
         printWindow.print();
     };
+
+
 
     return (
         <span>
@@ -89,8 +100,9 @@ const BookingList = () => {
             <h2 className="fw-bold my-3 container">Bookings:</h2>
 
             <div className="container d-flex justify-content-between align-items-center">
-                <FloatingLabel label="Sort By" className="w-25">
-                    <Form.Select value={sortBy} onChange={(e) => {
+                <div className="d-flex align-items-center">
+                    <span className="fs-5 w-50" >Sort By</span>
+                    <Form.Select value={sortBy} className="ms-1" onChange={(e) => {
                         setSortBy(e.target.value);
                         sortBooking(e.target.value);
                     }}>
@@ -103,7 +115,8 @@ const BookingList = () => {
                         <option value="from">From</option>
                         <option value="end">End</option>
                     </Form.Select>
-                </FloatingLabel>
+                </div>
+
 
                 {/* Print Button */}
                 <Button variant="primary" onClick={handlePrint}>Print</Button>
