@@ -68,7 +68,7 @@ const FloorMapForm = ({ onClose, onRefresh }) => {
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Button type="button" onClick={() => widgetRef.current.open()} className="w-100 bg-dark">
+                        <Button type="button" onClick={() => widgetRef.current.open()} className="w-100">
                             Upload Floor Map
                         </Button>
                         {message && <div className="mt-2">{message}</div>}

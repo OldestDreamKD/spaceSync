@@ -134,7 +134,7 @@ const MarkerDescriptionsForm = ({ onClose, onSubmit, booked, marker }) => {
                 ) : (
                     <Form onSubmit={handleSubmit}>
                         <div className="d-flex align-items-start justify-content-between mb-3">
-                            <h5>Add Marker Descriptions</h5>
+                            <h5>Book this Resource</h5>
                             <CloseButton onClick={onClose} />
                         </div>
 

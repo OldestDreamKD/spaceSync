@@ -193,7 +193,8 @@ body>div.fade.modal.show>div>div>div.modal-body>table>tbody>tr>td:nth-child(1),
   border: 1px solid #14213D !important;
 }
 
-#root>span>div.container.d-flex.justify-content-between.align-items-center>button {
+#root>span>div.container.d-flex.justify-content-between.align-items-center>button,
+#root>div>div>div.modal-overlay>div>form>div:nth-child(3)>button {
   background-color: #5C6B73;
   color: #E9C46A;
   border: 1px solid #5C6B73;

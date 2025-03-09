@@ -38,7 +38,7 @@ const MarkerdescriptionsForm = ({ onClose, onSubmit }) => {
             <Stack gap={2} className="modal-content">
                 <Form onSubmit={handleSubmit}>
                     <div className="d-flex align-items-start justify-content-between mb-3">
-                        <h5>Add Marker descriptions</h5>
+                        <h5>Add Resource descriptions</h5>
                         <CloseButton onClick={onClose} />
                     </div>
 

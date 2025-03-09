@@ -270,7 +270,7 @@ const FloorMap = () => {
                         <Modal.Header closeButton>
                             <Modal.Title>Confirm Deletion</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>Are you sure you want to delete this marker?</Modal.Body>
+                        <Modal.Body>Are you sure you want to delete this Resource?</Modal.Body>
                         <Modal.Footer>
                             <Button variant="dark" onClick={() => { setMarkerDeleteShowModal(false); setMarkerToDelete(null) }}>
                                 Cancel
@@ -287,7 +287,7 @@ const FloorMap = () => {
                         <Modal.Header closeButton>
                             <Modal.Title>Confirm Deletion</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>Are you sure you want to delete this marker?</Modal.Body>
+                        <Modal.Body>Are you sure you want to delete this Floor Map</Modal.Body>
                         <Modal.Footer>
                             <Button variant="dark" onClick={() => { setShowMapDeleteModal(false); setMapToDelete(null) }}>
                                 Cancel
